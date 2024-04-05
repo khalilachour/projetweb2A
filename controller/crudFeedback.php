@@ -6,10 +6,8 @@ class CrudFeedback {
         $this->conn = $db;
     }
 
-    // Function to create a new recruitment feedback
-    public function createRecruitmentFeedback($candidateID, $feedbackText) {
-        $status = 'Pending';
-        $sql = "INSERT INTO recruitment_feedback (candidate_id, feedback_text, status) VALUES ('$candidateID', '$feedbackText', '$status')";
+    public function createRecruitmentFeedback($candidateID, $candidateName, $feedbackText, $satisfactionRating) {
+        $sql = "INSERT INTO recruitment_feedback (candidate_id, candidate_name, feedback, satisfaction_rating) VALUES ('$candidateID', '$candidateName', '$feedbackText', '$satisfactionRating')";
         if ($this->conn->query($sql) === TRUE) {
             return "New feedback created successfully";
         } else {
@@ -17,7 +15,6 @@ class CrudFeedback {
         }
     }
 
-    // Function to read recruitment feedback
     public function readRecruitmentFeedback($filter = '') {
         $sql = "SELECT * FROM recruitment_feedback";
         if (!empty($filter)) {
@@ -31,9 +28,8 @@ class CrudFeedback {
         }
     }
 
-    // Function to update a recruitment feedback
-    public function updateRecruitmentFeedback($feedbackID, $feedbackText, $status) {
-        $sql = "UPDATE recruitment_feedback SET feedback_text='$feedbackText', status='$status' WHERE id=$feedbackID";
+    public function updateRecruitmentFeedback($feedbackID, $feedbackText, $satisfactionRating) {
+        $sql = "UPDATE recruitment_feedback SET feedback='$feedbackText', satisfaction_rating='$satisfactionRating' WHERE id=$feedbackID";
         if ($this->conn->query($sql) === TRUE) {
             return "Feedback updated successfully";
         } else {
@@ -41,7 +37,6 @@ class CrudFeedback {
         }
     }
 
-    // Function to delete a recruitment feedback
     public function deleteRecruitmentFeedback($feedbackID) {
         $sql = "DELETE FROM recruitment_feedback WHERE id=$feedbackID";
         if ($this->conn->query($sql) === TRUE) {

@@ -6,9 +6,8 @@ class CrudEvent {
         $this->conn = $db;
     }
 
-    // Function to create a new recruitment event
-    public function createRecruitmentEvent($eventName, $eventType, $date, $location, $description) {
-        $sql = "INSERT INTO recruitment_events (event_name, event_type, date, location, description) VALUES ('$eventName', '$eventType', '$date', '$location', '$description')";
+    public function createRecruitmentEvent($candidateName, $description, $date, $place, $eventName, $eventType) {
+        $sql = "INSERT INTO recruitment_events (candidate_name, description, date, place, event_name, event_type) VALUES ('$candidateName', '$description', '$date', '$place', '$eventName', '$eventType')";
         if ($this->conn->query($sql) === TRUE) {
             return "New event created successfully";
         } else {
@@ -16,7 +15,6 @@ class CrudEvent {
         }
     }
 
-    // Function to read recruitment events
     public function readRecruitmentEvents($filter = '') {
         $sql = "SELECT * FROM recruitment_events";
         if (!empty($filter)) {
@@ -30,9 +28,8 @@ class CrudEvent {
         }
     }
 
-    // Function to update a recruitment event
-    public function updateRecruitmentEvent($eventID, $eventName, $eventType, $date, $location, $description) {
-        $sql = "UPDATE recruitment_events SET event_name='$eventName', event_type='$eventType', date='$date', location='$location', description='$description' WHERE id=$eventID";
+    public function updateRecruitmentEvent($eventID, $candidateName, $description, $date, $place, $eventName, $eventType) {
+        $sql = "UPDATE recruitment_events SET candidate_name='$candidateName', description='$description', date='$date', place='$place', event_name='$eventName', event_type='$eventType' WHERE id=$eventID";
         if ($this->conn->query($sql) === TRUE) {
             return "Event updated successfully";
         } else {
@@ -40,7 +37,6 @@ class CrudEvent {
         }
     }
 
-    // Function to delete a recruitment event
     public function deleteRecruitmentEvent($eventID) {
         $sql = "DELETE FROM recruitment_events WHERE id=$eventID";
         if ($this->conn->query($sql) === TRUE) {
