@@ -1,17 +1,19 @@
 <?php
 class Event {
+    private $candidateName;
+    private $description;
+    private $date;
+    private $place;
     private $eventName;
     private $eventType;
-    private $date;
-    private $location;
-    private $description;
 
-    public function __construct($eventName, $eventType, $date, $location, $description) {
+    public function __construct($candidateName, $description, $date, $place, $eventName, $eventType) {
+        $this->candidateName = $candidateName;
+        $this->description = $description;
+        $this->date = $date;
+        $this->place = $place;
         $this->eventName = $eventName;
         $this->eventType = $eventType;
-        $this->date = $date;
-        $this->location = $location;
-        $this->description = $description;
     }
 }
 ?>

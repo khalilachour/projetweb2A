@@ -1,24 +1,23 @@
 <?php
 class Feedback {
+    private $candidateID;
+    private $candidateName;
     private $feedbackText;
+    private $satisfactionRating;
 
-    public function __construct($feedbackText) {
+    public function __construct($candidateID, $candidateName, $feedbackText, $satisfactionRating) {
+        $this->candidateID = $candidateID;
+        $this->candidateName = $candidateName;
         $this->feedbackText = $feedbackText;
+        $this->satisfactionRating = $satisfactionRating;
     }
 
-    // Function to provide rating in feedback
-    public function provideRating($feedbackID, $rating, $conn) {
-        // Check if the rating provided is within the acceptable range (1 to 5)
-        if ($rating < 1 || $rating > 5) {
-            return "Error: Rating must be between 1 and 5.";
-        }
-        
-        // Update the rating in the database
-        $sql = "UPDATE recruitment_feedback SET rating=$rating WHERE id=$feedbackID";
+    public function provideFeedback($conn) {
+        $sql = "INSERT INTO recruitment_feedback (candidate_id, candidate_name, feedback, satisfaction_rating) VALUES ('$this->candidateID', '$this->candidateName', '$this->feedbackText', '$this->satisfactionRating')";
         if ($conn->query($sql) === TRUE) {
-            return "Rating provided successfully";
+            return "Feedback provided successfully";
         } else {
-            return "Error updating record: " . $conn->error;
+            return "Error: " . $sql . "<br>" . $conn->error;
         }
     }
 }
