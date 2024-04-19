@@ -11,11 +11,11 @@
     
     <?php
     // Include the database connection and classes
-    require_once 'database.php'; // Changed from connection.php
-    require_once 'event.php';
-    require_once 'feedback.php';
-    require_once 'crudevent.php';
-    require_once 'crudfeedback.php';
+    require_once 'database.php'; 
+    require_once 'model/event.php';
+    require_once 'model/feedback.php';
+    require_once 'controller/crudEvent.php';
+    require_once 'controller/crudFeedback.php';
 
     // Check if the database connection is successful
     if ($db->connect_error) {
@@ -23,8 +23,8 @@
     }
 
     // Create instances of CrudEvent and CrudFeedback
-    $crudEvent = new CrudEvent($db);
-    $crudFeedback = new CrudFeedback($db);
+    $crudEvent = new controller\CrudEvent($db);
+    $crudFeedback = new controller\CrudFeedback($db);
 
     // Fetch and display events
     $events = $crudEvent->readEvents();

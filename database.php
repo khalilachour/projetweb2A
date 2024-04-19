@@ -1,13 +1,18 @@
 <?php
+// Database configuration
+$servername = "localhost"; // Change this to your database server name if different
+$username = "root"; // Change this to your database username
+$password = ""; // Change this to your database password if set
+$dbname = "event_feedback"; // Change this to your database name
 
-$hostname = "localhost";
-$dbUser = "root";
-$Password = "";
-$dbName = "baseuser";
+// Create database connection
+$db = new mysqli($servername, $username, $password, $dbname);
 
-$conn = mysqli_connect($hostname, $dbUser, $Password, $dbName);
-if (!$conn) {
-    die("Something went wrong" . mysqli_connect_error());
+// Check connection
+if ($db->connect_error) {
+    die("Connection failed: " . $db->connect_error);
 }
 
+// Set charset to utf8
+$db->set_charset("utf8");
 ?>
