@@ -23,8 +23,8 @@
     }
 
     // Create instances of CrudEvent and CrudFeedback
-    $crudEvent = new controller\CrudEvent($db);
-    $crudFeedback = new controller\CrudFeedback($db);
+    $crudEvent = new CrudEvent($db);
+    $crudFeedback = new CrudFeedback($db);
 
     // Fetch and display events
     $events = $crudEvent->readEvents();
