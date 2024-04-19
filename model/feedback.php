@@ -1,24 +1,44 @@
-<?php
 class Feedback {
-    private $candidateID;
-    private $candidateName;
+    private $feedbackId;
+    private $candidateId;
     private $feedbackText;
     private $satisfactionRating;
 
-    public function __construct($candidateID, $candidateName, $feedbackText, $satisfactionRating) {
-        $this->candidateID = $candidateID;
-        $this->candidateName = $candidateName;
-        $this->feedbackText = $feedbackText;
-        $this->satisfactionRating = $satisfactionRating;
+    public function __construct($candidateId, $feedbackText, $satisfactionRating) {
+        $this->setCandidateId($candidateId);
+        $this->setFeedbackText($feedbackText);
+        $this->setSatisfactionRating($satisfactionRating);
     }
 
-    public function provideFeedback($conn) {
-        $sql = "INSERT INTO recruitment_feedback (candidate_id, candidate_name, feedback, satisfaction_rating) VALUES ('$this->candidateID', '$this->candidateName', '$this->feedbackText', '$this->satisfactionRating')";
-        if ($conn->query($sql) === TRUE) {
-            return "Feedback provided successfully";
-        } else {
-            return "Error: " . $sql . "<br>" . $conn->error;
-        }
+    // Getters and Setters
+    public function getFeedbackId() {
+        return $this->feedbackId;
+    }
+
+    public function getCandidateId() {
+        return $this->candidateId;
+    }
+
+    public function setCandidateId($candidateId) {
+        // Validation logic for candidate ID can be added here
+        $this->candidateId = $candidateId;
+    }
+
+    public function getFeedbackText() {
+        return $this->feedbackText;
+    }
+
+    public function setFeedbackText($feedbackText) {
+        // Validation logic for feedback text can be added here
+        $this->feedbackText = $feedbackText;
+    }
+
+    public function getSatisfactionRating() {
+        return $this->satisfactionRating;
+    }
+
+    public function setSatisfactionRating($satisfactionRating) {
+        // Validation logic for satisfaction rating can be added here
+        $this->satisfactionRating = $satisfactionRating;
     }
 }
-?>
