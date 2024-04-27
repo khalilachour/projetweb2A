@@ -93,6 +93,32 @@ class UserController {
             die('Error: '.$e->getMessage());
         }
     }
+    public function isEmailExists($email) {
+        $sql = "SELECT COUNT(*) as count FROM Users WHERE email = :email";
+        $db = config::getConnexion();
+        try {
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(':email', $email);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($result['count'] > 0) {
+                // If email exists, return true
+                echo '<div style="background-color: #f8d7da; color: #721c24; padding: 10px; border: 1px solid #f5c6cb; border-radius: 5px;">';
+                echo 'This email is already taken.';
+                echo '</div>';
+                return true;
+               
+            } else {
+                return false;
+            }
+        } catch (PDOException $e) {
+            // Handle database connection errors
+            // You can throw an exception here to propagate the error to the caller
+            // Alternatively, log the error and return false
+            return false;
+        }
+    }
+    
 
 }
 ?>
