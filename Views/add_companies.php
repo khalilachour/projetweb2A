@@ -27,7 +27,7 @@ if(!empty($nom) && !empty($email) && !empty($password) && !empty($type) && !empt
     $company = new Company($nom, $email, $password, $type, $numero, $capital, $localisation);
     $companyC->addCompany($company);
     // Redirect to another page if necessary
-    header('location : ../contact.php');
+    header("Location: contact.php");
 
     // header('location:listCompanies.php');
 } 

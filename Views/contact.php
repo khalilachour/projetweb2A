@@ -31,7 +31,7 @@
                 <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
                 <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
                 <li class="nav-item"><a href="service.html" class="nav-link">Service</a></li>
-                <li class="nav-item"><a href="project.html" class="nav-link">Project</a></li>
+                <li class="nav-item"><a href="back/layout-static.php" class="nav-link">Project</a></li>
                 <li class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                     <div class="dropdown-menu">
@@ -67,62 +67,9 @@
         </div>
     </div>
     <!-- Hero End -->
-   <!-- List of Companies Start -->
-
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-10">
-            <div class="section-title position-relative text-center mb-5 pb-2">
-                <h2 class="mt-2">List of Companies</h2>
-            </div>
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Company Name</th>
-                            <th>Email</th>
-                            <th>Type</th>
-                            <th>Numero</th>
-                            <th>Capital</th>
-                            <th>Localisation</th>
-                            <th>Actions</th> <!-- Added Actions column -->
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        include __DIR__ . '/../Controllers/CompanyC.php';
-
-                        $companyC = new CompanyC();
-
-                        if (method_exists($companyC, 'listCompanies') && true) {
-                            $result = $companyC->listCompanies();
-                        } else {
-                            $result = [];
-                        }
-
-                        foreach ($result as $row) {
-                            echo "<tr>";
-                            echo "<td>{$row['societe_id']}</td>";
-                            echo "<td>{$row['nom_societe']}</td>";
-                            echo "<td>{$row['email']}</td>";
-                            echo "<td>{$row['type']}</td>";
-                            echo "<td>{$row['numero']}</td>";
-                            echo "<td>{$row['capital']}</td>";
-                            echo "<td>{$row['localisation']}</td>";
-                            // Add Actions column with Delete button
-                            echo "<td><form action='delete_companies.php' method='post'><input type='hidden' name='companyId' value='{$row['societe_id']}'><button type='submit' class='btn btn-danger'>Delete</button></form></td>";
-                            echo "</tr>";
-                        }
-                        ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-</script>
-<!-- List of Companies End -->
+   
+<!--
+login companies
 <body>
     <div class="container">
         <h2>Login</h2>
@@ -138,10 +85,36 @@
             <button type="submit" class="btn btn-primary">Login</button>
         </form>
     </div>
-</body>
+</body>-->
+<!-- Choose Form Start -->
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <div class="section-title position-relative text-center mb-5 pb-2">
+                <h6 class="position-relative d-inline text-primary ps-4">Choose Form</h6>
+                <h2 class="mt-2">Select the form you want to fill</h2>
+            </div>
+            <div class="text-center">
+                <button class="btn btn-primary me-3" onclick="showCompanyForm()">Add Company</button>
+                <button class="btn btn-primary" onclick="showUserForm()">Add User</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function showCompanyForm() {
+        document.getElementById('companyForm').style.display = 'block';
+        document.getElementById('userForm').style.display = 'none';
+    }
+
+    function showUserForm() {
+        document.getElementById('companyForm').style.display = 'none';
+        document.getElementById('userForm').style.display = 'block';
+    }
+</script>
 
 <!-- Add Company Form Start -->
-<div class="container py-5">
+<div class="container py-5" id="companyForm" style="display: none;">
     <div class="row justify-content-center">
         <div class="col-lg-7">
             <div class="section-title position-relative text-center mb-5 pb-2">
@@ -149,50 +122,56 @@
                 <h2 class="mt-2">Enter Company Details</h2>
             </div>
             <form action="add_companies.php" method="POST" onsubmit="return validateForm();">
+
                 <div class="row g-3">
                     <div class="col-md-6">
                         <div class="form-floating">
                             <input type="text" class="form-control" id="nom" name="nom" placeholder="Company Name" >
                             <label for="nom">Company Name</label>
                         </div>
+                        <p class="help-block" id="nomError"></p>
                     </div>
                     <div class="col-md-6">
                         <div class="form-floating">
                             <input type="email" class="form-control" id="email" name="email" placeholder="Email" >
                             <label for="email">Email</label>
                         </div>
+                        <p class="help-block" id="emailError"></p>
                     </div>
                     <div class="col-12">
                         <div class="form-floating">
                             <input type="password" class="form-control" id="password" name="password" placeholder="Password" >
                             <label for="password">Password</label>
                         </div>
+                        <p class="help-block" id="passwordError"></p>
                     </div>
                     <div class="col-12">
-                        <label for="type">Type</label>
-                        <select id="type" name="type" class="form-control">
-                            <option value="company">Company</option>
-                            <option value="user">User</option>
-                        </select>
-                    </div>
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="type" name="type" placeholder="Type" >
+                            <label for="type">Type</label>
+                        </div>
+                        <p class="help-block" id="typeError"></p>
                     </div>
                     <div class="col-12">
                         <div class="form-floating">
                             <input type="text" class="form-control" id="numero" name="numero" placeholder="Numero" >
                             <label for="numero">Numero</label>
                         </div>
+                        <p class="help-block" id="numeroError"></p>
                     </div>
                     <div class="col-12">
                         <div class="form-floating">
                             <input type="text" class="form-control" id="capital" name="capital" placeholder="Capital" >
                             <label for="capital">Capital</label>
                         </div>
+                        <p class="help-block" id="capitalError"></p>
                     </div>
                     <div class="col-12">
                         <div class="form-floating">
                             <input type="text" class="form-control" id="localisation" name="localisation" placeholder="Localisation" >
                             <label for="localisation">Localisation</label>
                         </div>
+                        <p class="help-block" id="localisationError"></p>
                     </div>
                     <div class="col-12">
                         <button class="btn btn-primary w-100 py-3" type="submit">Add Company</button>
@@ -202,46 +181,183 @@
         </div>
     </div>
 </div>
-<!-- Add Company Form End -->
-<script>
-    function validateForm() {
-        var nom = document.getElementById('nom').value;
-        var email = document.getElementById('email').value;
-        var password = document.getElementById('password').value;
-        var type = document.getElementById('type').value;
-        var numero = document.getElementById('numero').value;
-        var capital = document.getElementById('capital').value;
-        var localisation = document.getElementById('localisation').value;
-
-        // Validation de chaque champ
-        if (nom == '' || email == '' || password == '' || type == '' || numero == '' || capital == '' || localisation == '') {
-            alert('Veuillez remplir tous les champs.');
-            return false; // Empêche la soumission du formulaire
-        }
-        
-
-        // Vous pouvez ajouter d'autres validations selon vos besoins, par exemple pour le format de l'email ou d'autres contraintes.
-
-        return true; // Soumet le formulaire si tous les champs sont valides
-    }
-</script>
-<div class="container">
-        <form action="login.php" method="post">
-            <div class="form-group">
-                <input type="email" placeholder="Enter Email:" name="email" class="form-control">
+<!-- Add User Form Start -->
+<div class="container py-5" id="userForm" style="display: none;">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <div class="section-title position-relative text-center mb-5 pb-2">
+                <h6 class="position-relative d-inline text-primary ps-4">Add User</h6>
+                <h2 class="mt-2">Enter User Details</h2>
             </div>
-            <div class="form-group">
-                <input type="password" placeholder="Enter Password:" name="password" class="form-control">
-            </div>
-            <div class="for-btn">
-                <input type="submit" value="Login" name="login" class="btn btn-primary">
-            </div>
-        </form>
-        <div>
-            <p>Not registered yet <a href="../Views/contact.php">Register Here</a></p>
-            <button type="submit" class="btn btn-primary">login</button>
+            <form action="add_Users.php" method="post" onsubmit="return validateForm1();">
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+                            <label for="username">Username</label>
+                        </div>
+                        <p class="help-block" id="usernameError"></p>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                            <label for="email">Email</label>
+                        </div>
+                        <p class="help-block" id="emailError"></p>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-floating">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                            <label for="password">Password</label>
+                        </div>
+                        <p class="help-block" id="passwordError"></p>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-floating">
+                            <select id="type" name="type" class="form-select">
+                                <option value="normal">Normal</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                            <label for="type">Type</label>
+                        </div>
+                        <p class="help-block" id="typeError"></p>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-floating">
+                            <input type="number" class="form-control" id="age" name="age" placeholder="Age">
+                            <label for="age">Age</label>
+                        </div>
+                        <p class="help-block" id="ageError"></p>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="localisation" name="localisation" placeholder="Localisation">
+                            <label for="localisation">Localisation</label>
+                        </div>
+                        <p class="help-block" id="localisationError"></p>
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-primary w-100 py-3" type="submit">Add User</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
+</div>
+
+<script>
+    function validateForm1() {
+        // Reset error messages
+        document.getElementById('usernameError').innerHTML = '';
+        document.getElementById('emailError').innerHTML = '';
+        document.getElementById('passwordError').innerHTML = '';
+        document.getElementById('typeError').innerHTML = '';
+        document.getElementById('ageError').innerHTML = '';
+        document.getElementById('localisationError').innerHTML = '';
+
+        // Get form values
+        var username = document.getElementById('username').value.trim();
+        var email = document.getElementById('email').value.trim();
+        var password = document.getElementById('password').value.trim();
+        var type = document.getElementById('type').value.trim();
+        var age = document.getElementById('age').value.trim();
+        var localisation = document.getElementById('localisation').value.trim();
+
+        // Validate fields
+        if (username === '') {
+            document.getElementById('usernameError').innerHTML = 'Username is required';
+            return false;
+        }
+
+        if (email === '') {
+            document.getElementById('emailError').innerHTML = 'Email is required';
+            return false;
+        }
+
+        if (password === '') {
+            document.getElementById('passwordError').innerHTML = 'Password is required';
+            return false;
+        }
+
+        if (age === '') {
+            document.getElementById('ageError').innerHTML = 'Age is required';
+            return false;
+        }
+
+        if (localisation === '') {
+            document.getElementById('localisationError').innerHTML = 'Localisation is required';
+            return false;
+        }
+
+        // If all validations pass, return true to submit the form
+        return true;
+    }
+</script>
+
+
+<script>
+    function validateForm() {
+        // Reset error messages
+        document.getElementById('nomError').innerHTML = '';
+        document.getElementById('emailError').innerHTML = '';
+        document.getElementById('passwordError').innerHTML = '';
+        document.getElementById('typeError').innerHTML = '';
+        document.getElementById('numeroError').innerHTML = '';
+        document.getElementById('capitalError').innerHTML = '';
+        document.getElementById('localisationError').innerHTML = '';
+
+        // Get form values
+        var nom = document.getElementById('nom').value.trim();
+        var email = document.getElementById('email').value.trim();
+        var password = document.getElementById('password').value.trim();
+        var type = document.getElementById('type').value.trim();
+        var numero = document.getElementById('numero').value.trim();
+        var capital = document.getElementById('capital').value.trim();
+        var localisation = document.getElementById('localisation').value.trim();
+
+        // Validate fields
+        if (nom === '') {
+            document.getElementById('nomError').innerHTML = 'Company Name is required';
+            return false;
+        }
+
+        if (email === '') {
+            document.getElementById('emailError').innerHTML = 'Email is required';
+            return false;
+        }
+
+        if (password === '') {
+            document.getElementById('passwordError').innerHTML = 'Password is required';
+            return false;
+        }
+
+        if (type === '') {
+            document.getElementById('typeError').innerHTML = 'Type is required';
+            return false;
+        }
+
+        if (numero === '') {
+            document.getElementById('numeroError').innerHTML = 'Numero is required';
+            return false;
+        }
+
+        if (capital === '') {
+            document.getElementById('capitalError').innerHTML = 'Capital is required';
+            return false;
+        }
+
+        if (localisation === '') {
+            document.getElementById('localisationError').innerHTML = 'Localisation is required';
+            return false;
+        }
+
+        // If all validations pass, return true to submit the form
+        return true;
+    }
+</script>
+
+
 <!-- Update Company Form -->
 <div class="container py-5">
     <div class="row justify-content-center">

@@ -1,7 +1,7 @@
 <?php
 
 include __DIR__ . '/../config.php';
-require_once __DIR__ . '/../models/Company.php';
+require_once __DIR__ . '/../Models/Company.php';
 
 class CompanyC {
 

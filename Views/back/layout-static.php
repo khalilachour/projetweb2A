@@ -153,7 +153,62 @@ require_once __DIR__ . '/../../Controllers/CompanyC.php';
         </div>
     </div>
 </div>
+</script>
 <!-- End Update Company Form -->
+   <!-- List of Companies Start -->
+
+   <div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="section-title position-relative text-center mb-5 pb-2">
+                <h2 class="mt-2">List of Companies</h2>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Company Name</th>
+                            <th>Email</th>
+                            <th>Type</th>
+                            <th>Numero</th>
+                            <th>Capital</th>
+                            <th>Localisation</th>
+                            <th>Actions</th> <!-- Added Actions column -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        require_once __DIR__ . '/../../Controllers/CompanyC.php';
+
+                        $companyC = new CompanyC();
+
+                        if (method_exists($companyC, 'listCompanies') && true) {
+                            $result = $companyC->listCompanies();
+                        } else {
+                            $result = [];
+                        }
+
+                        foreach ($result as $row) {
+                            echo "<tr>";
+                            echo "<td>{$row['societe_id']}</td>";
+                            echo "<td>{$row['nom_societe']}</td>";
+                            echo "<td>{$row['email']}</td>";
+                            echo "<td>{$row['type']}</td>";
+                            echo "<td>{$row['numero']}</td>";
+                            echo "<td>{$row['capital']}</td>";
+                            echo "<td>{$row['localisation']}</td>";
+                            // Add Actions column with Delete button
+                            echo "<td><form action='/../../projetweb2/Views/delete_companies.php' method='post'><input type='hidden' name='companyId' value='{$row['societe_id']}'><button type='submit' class='btn btn-danger'>Delete</button></form></td>";
+                            echo "</tr>";
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">

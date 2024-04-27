@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Call the method to delete the company
         $deleteResult = $companyC->deleteCompany($companyId);
-        header("Location: contact.php");
+        header("Location: /../projetweb2/Views/back/layout-static.php");
 
         // Check the result of the deletion operation
         if ($deleteResult) {
