@@ -77,23 +77,28 @@ class UserController {
         }
     }
 
-    public function updateUser($userId, $username, $email, $password, $type, $age, $localisation) {
-        $sql = "UPDATE Users SET username=:username, email=:email, password=:password, type=:type, age=:age, localisation=:localisation WHERE user_id=:userId";
-        $db = Config::getConnexion();
-        try {
-            $q = $db->prepare($sql);
-            $q->bindValue(':username', $username);
-            $q->bindValue(':email', $email);
-            $q->bindValue(':password', $password);
-            $q->bindValue(':type', $type);
-            $q->bindValue(':age', $age);
-            $q->bindValue(':localisation', $localisation);
-            $q->bindValue(':userId', $userId);
-            $q->execute();
-        } catch (Exception $e) {
-            die('Error: '.$e->getMessage());
+    public function updateUserByEmail($email, $username, $type, $age, $localisation) {
+        // Validate if the user is non-admin
+        if ($type !== 'admin') {
+            // Prepare and execute the update query
+            $sql = "UPDATE users SET username=?, type=?, age=?, localisation=? WHERE email=?";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bind_param("sssss", $username, $type, $age, $localisation, $email);
+            $stmt->execute();
+
+            // Check if the update was successful
+            if ($stmt->affected_rows > 0) {
+                return true; // Return true if update was successful
+            }
         }
+        return false; // Return false if the user is an admin or update failed
     }
+
+    // Other methods...
+
+
+    // Other methods...
+
     public function isEmailExists($email) {
         $sql = "SELECT COUNT(*) as count FROM Users WHERE email = :email";
         $db = config::getConnexion();
