@@ -209,6 +209,57 @@ require_once __DIR__ . '/../../Controllers/CompanyC.php';
         </div>
     </div>
 </div>
+<!-- List of Users Start -->
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="section-title position-relative text-center mb-5 pb-2">
+                <h2 class="mt-2">List of Users</h2>
+            </div>
+            <div class="table-responsive_Users">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Type</th>
+                            <th>Age</th>
+                            <th>Localisation</th>
+                            <th>Actions</th> <!-- You can add actions here -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        // Include necessary files and initialize UserController
+                        require_once __DIR__ . '/../../Controllers/UserC.php';
+                        $userC = new UserController();
+
+                        // Call listUsers method to fetch users
+                        $result = $userC->listUsers();
+
+                        // Loop through the result and display each user
+                        foreach ($result as $row) {
+                            echo "<tr>";
+                            echo "<td>{$row['user_id']}</td>";
+                            echo "<td>{$row['username']}</td>";
+                            echo "<td>{$row['email']}</td>";
+                            echo "<td>{$row['type']}</td>";
+                            echo "<td>{$row['age']}</td>";
+                            echo "<td>{$row['localisation']}</td>";
+                            // You can add actions here, like edit and delete buttons
+                            echo "<td><form action='/../../projetweb2/Views/delete_Users.php' method='post'><input type='hidden' name='user_id' value='{$row['user_id']}'><button type='submit' class='btn btn-danger'>Delete</button></form></td>";// Example: echo "<td><a href='/edit_user.php?id={$row['id']}' class='btn btn-primary'>Edit</a></td>";
+                            echo "</tr>";
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">

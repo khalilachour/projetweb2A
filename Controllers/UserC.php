@@ -1,6 +1,6 @@
 <?php
 
-include __DIR__ . '/../config.php';
+include_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../Models/User.php';
 
 class UserController {
@@ -55,6 +55,7 @@ class UserController {
         } catch (Exception $e) {
             die('Error: '.$e->getMessage());
         }
+        return true;
     }
 
     public function createUser($username, $email, $password, $type, $age, $localisation) {
