@@ -208,10 +208,6 @@ require_once __DIR__ . '/../../Controllers/CompanyC.php';
             </div>
         </div>
     </div>
-</div>
-<!-- List of Users Start -->
-
-<div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-lg-10">
             <div class="section-title position-relative text-center mb-5 pb-2">
@@ -259,6 +255,8 @@ require_once __DIR__ . '/../../Controllers/CompanyC.php';
         </div>
     </div>
 </div>
+<!-- List of Users Start -->
+
 
             <div id="layoutSidenav_content">
                 <main>

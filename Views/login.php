@@ -5,8 +5,13 @@ if (isset($_SESSION["user"])) {
     exit(); // Exit to prevent further execution
 }
 
-require_once "config.php"; // Adjust the path as needed
-
+require_once "../config.php"; // Adjust the path as needed
+$config = array(
+    'servername' => 'localhost',
+    'username' => 'root',
+    'password' => '',
+    'dbname' => 'baseuser'
+);
 if (isset($_POST["login"])) {
     $email = $_POST["email"];
     $password = $_POST["password"];
@@ -15,16 +20,20 @@ if (isset($_POST["login"])) {
         $conn = new PDO("mysql:host=" . $config['servername'] . ";dbname=" . $config['dbname'], $config['username'], $config['password']);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $stmt = $conn->prepare("SELECT * FROM Societes WHERE email = :email");
+        $stmt = $conn->prepare("
+            SELECT user_id, username, email, password FROM Users WHERE email = :email 
+            UNION 
+            SELECT societe_id, nom_societe, email, password FROM Societes WHERE email = :email
+        ");
         $stmt->bindParam(':email', $email);
         $stmt->execute();
-
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user) {
+            // Check if the provided password matches the hashed password
             if (password_verify($password, $user["password"])) {
                 $_SESSION["user"] = "yes";
-                header("Location: index.php");
+                header("Location: contact.php");
                 exit(); // Exit after redirection
             } else {
                 echo "<div class='alert alert-danger'>Wrong password</div>";
@@ -55,7 +64,7 @@ if (isset($_POST["login"])) {
     <div class="container">
         <form action="login.php" method="post">
             <div class="form-group">
-                <input type="email" placeholder="Enter Email:" name="email" class="form-control">
+                <input type="text" placeholder="Enter Email:" name="email" class="form-control">
             </div>
             <div class="form-group">
                 <input type="password" placeholder="Enter Password:" name="password" class="form-control">
@@ -70,5 +79,4 @@ if (isset($_POST["login"])) {
     </div>
 
 </body>
-
 </html>
