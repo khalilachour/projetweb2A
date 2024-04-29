@@ -23,8 +23,11 @@ $localisation = isset($_POST['localisation']) ? $_POST['localisation'] : '';
 
 // Add a company only if all values are defined
 if(!empty($nom) && !empty($email) && !empty($password) && !empty($type) && !empty($numero) && !empty($capital) && !empty($localisation) && !$companyC->isEmailExists($email) ) {
+    // Hash the password
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
     // Add the company with the values of POST parameters
-    $company = new Company($nom, $email, $password, $type, $numero, $capital, $localisation);
+    $company = new Company($nom, $email, $hashedPassword, $type, $numero, $capital, $localisation);
     $companyC->addCompany($company);
     // Redirect to another page if necessary
     header("Location: contact.php");

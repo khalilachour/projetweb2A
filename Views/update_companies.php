@@ -1,36 +1,36 @@
 <?php
-// Vérifie si la méthode de requête est POST
+// Check if the request method is POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Vérifie si les champs du formulaire sont définis dans la requête POST
+    // Check if all required fields are set in the POST request
     if (isset($_POST['email'], $_POST['nom_societe'], $_POST['numero'], $_POST['capital'], $_POST['localisation'])) {
-        // Récupère les données du formulaire de la requête POST
+        // Retrieve form data from the POST request
         $email = $_POST['email'];
         $nom_societe = $_POST['nom_societe'];
         $numero = $_POST['numero'];
         $capital = $_POST['capital'];
         $localisation = $_POST['localisation'];
 
-        // Inclut les fichiers nécessaires et initialise la connexion à la base de données
+        // Include necessary files and initialize the database connection
         include_once __DIR__ . '/../Controllers/CompanyC.php';
         $companyC = new CompanyC();
 
-        // Appelle la méthode pour mettre à jour les détails de l'entreprise
+        // Call the method to update the company details
         $updateResult = $companyC->updateCompanyByEmail($email, $nom_societe, $numero, $capital, $localisation);
 
-        // Vérifie le résultat de l'opération de mise à jour
+        // Check the result of the update operation
         if ($updateResult) {
-            // Redirige vers la page affichant la liste des entreprises ou effectue une autre action
+            // Redirect to the page displaying the list of companies or perform another action
             header("Location: contact.php");
-            exit(); // Assurez-vous que le script se termine après la redirection
+            exit(); // Ensure the script terminates after redirection
         } else {
             echo "Failed to update company. Please try again.";
         }
     } else {
-        // Gère le cas où les champs du formulaire ne sont pas définis dans la requête POST
+        // Handle the case where the form fields are not set in the POST request
         echo "Missing form fields.";
     }
 } else {
-    // Gère le cas où la méthode de requête n'est pas POST
+    // Handle the case where the request method is not POST
     echo "Invalid request method.";
 }
 ?>

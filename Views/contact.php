@@ -20,85 +20,80 @@
 </head>
 
 <body>
-    <!-- Navbar Start -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light px-4 px-lg-5 py-3 py-lg-0">
-        <a href="#" class="navbar-brand"><i class="fa fa-search me-2"></i>SEO<span class="fs-5">Master</span></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-            <span class="fa fa-bars"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav ms-auto py-0">
-                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
-                <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
-                <li class="nav-item"><a href="service.html" class="nav-link">Service</a></li>
-                <li class="nav-item"><a href="contact.php" class="nav-link">Project</a></li>
-                <li class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                    <div class="dropdown-menu">
-                        <a href="team.html" class="dropdown-item">Our Team</a>
-                        <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                        <a href="404.html" class="dropdown-item">404 Page</a>
-                    </div>
-                </li>
-                <li class="nav-item"><a href="contact.php" class="nav-link active">Contact</a></li>
-            </ul>
-            <button type="button" class="btn text-secondary ms-3" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fa fa-search"></i></button>
-            <a href="#" class="btn btn-secondary text-light rounded-pill py-2 px-4 ms-3">Pro Version</a>
+<!-- Navbar Start -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light px-4 px-lg-5 py-3 py-lg-0">
+    <a href="#" class="navbar-brand"><i class="fa fa-search me-2"></i>SEO<span class="fs-5">Master</span></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+        <span class="fa fa-bars"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav ms-auto py-0">
+            <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+            <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+            <li class="nav-item"><a href="service.html" class="nav-link">Service</a></li>
+            <li class="nav-item"><a href="contact.php" class="nav-link">Project</a></li>
+            <li class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                <div class="dropdown-menu">
+                    <a href="team.html" class="dropdown-item">Our Team</a>
+                    <a href="testimonial.html" class="dropdown-item">Testimonial</a>
+                    <a href="404.html" class="dropdown-item">404 Page</a>
+                </div>
+            </li>
+            <li class="nav-item"><a href="contact.php" class="nav-link active">Contact</a></li>
+        </ul>
+        <button type="button" class="btn text-secondary ms-3" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fa fa-search"></i></button>
+        <a href="#" class="btn btn-secondary text-light rounded-pill py-2 px-4 ms-3">Pro Version</a>
+        <!-- User's name -->
+        <div class="ms-3">
+            <?php
+            session_start();
+            if (isset($_SESSION["user"])) {
+                
+                echo "<span class='text-secondary me-2'>Welcome, " . $_SESSION["user"] . "</span>";
+                
+            }
+            ?>
         </div>
-    </nav>
-    <!-- Navbar End -->
+    </div>
+</nav>
+<!-- Navbar End -->
 
-    <!-- Modify User Form -->
-    <div class="container py-5">
+<!-- Update Company Form -->
+<div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-lg-7">
             <div class="section-title position-relative text-center mb-5 pb-2">
-                <h6 class="position-relative d-inline text-primary ps-4">Modify User</h6>
-                <h2 class="mt-2">Modify User Details</h2>
+                <h6 class="position-relative d-inline text-primary ps-4">Update Company</h6>
+                <h2 class="mt-2">Enter Company Details</h2>
             </div>
-            <form action="update_user.php" method="post">
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <div class="form-floating">
-                            <input type="text" class="form-control" id="username" name="username" placeholder="Username">
-                            <label for="username">Username</label>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-floating">
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Email" readonly>
-                            <label for="email">Email</label>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-floating">
-                            <select id="type" name="type" class="form-select">
-                                <option value="normal">Normal</option>
-                                <option value="admin">Admin</option>
-                            </select>
-                            <label for="type">Type</label>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-floating">
-                            <input type="number" class="form-control" id="age" name="age" placeholder="Age">
-                            <label for="age">Age</label>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-floating">
-                            <input type="text" class="form-control" id="localisation" name="localisation" placeholder="Localisation">
-                            <label for="localisation">Localisation</label>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <button class="btn btn-primary w-100 py-3" type="submit">Update User</button>
-                    </div>
+            <form action="update_companies.php" method="POST">
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" value="<?php echo $_SESSION['user_email'] ?? ''; ?>" readonly>
                 </div>
+                <div class="mb-3">
+                    <label for="nom_societe" class="form-label">Company Name</label>
+                    <input type="text" class="form-control" id="nom_societe" name="nom_societe" value="<?php echo $_SESSION['company_name'] ?? ''; ?>">
+                </div>
+                <div class="mb-3">
+                    <label for="numero" class="form-label">Numero</label>
+                    <input type="text" class="form-control" id="numero" name="numero" value="<?php echo $_SESSION['company_numero'] ?? ''; ?>">
+                </div>
+                <div class="mb-3">
+                    <label for="capital" class="form-label">Capital</label>
+                    <input type="text" class="form-control" id="capital" name="capital" value="<?php echo $_SESSION['company_capital'] ?? ''; ?>">
+                </div>
+                <div class="mb-3">
+                    <label for="localisation" class="form-label">Localisation</label>
+                    <input type="text" class="form-control" id="localisation" name="localisation" value="<?php echo $_SESSION['company_localisation'] ?? ''; ?>">
+                </div>
+                <button type="submit" class="btn btn-primary">Update Company</button>
             </form>
         </div>
     </div>
 </div>
+<!-- End Update Company Form -->
 
 
     <!-- Hero Start -->
@@ -476,6 +471,7 @@ login companies
         return true;
     }
 </script>
+-->
 
 
 <!-- Update Company Form -->
@@ -486,54 +482,38 @@ login companies
                 <h6 class="position-relative d-inline text-primary ps-4">Update Company</h6>
                 <h2 class="mt-2">Enter Company Details</h2>
             </div>
-            <form action="update_companies.php" method="POST" >
+            <form action="update_companies.php" method="POST">
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" >
+                    <input type="email" class="form-control" id="email" name="email" value="<?php echo $_SESSION['_email']; ?>" readonly>
                 </div>
                 <div class="mb-3">
                     <label for="nom_societe" class="form-label">Company Name</label>
-                    <input type="text" class="form-control" id="nom_societe" name="nom_societe" >
+                    <input type="text" class="form-control" id="nom_societe" name="nom_societe" value="<?php echo $_SESSION['company_name']; ?>">
                 </div>
                 <div class="mb-3">
                     <label for="numero" class="form-label">Numero</label>
-                    <input type="text" class="form-control" id="numero" name="numero" >
+                    <input type="text" class="form-control" id="numero" name="numero" value="<?php echo $_SESSION['company_numero']; ?>">
                 </div>
                 <div class="mb-3">
                     <label for="capital" class="form-label">Capital</label>
-                    <input type="text" class="form-control" id="capital" name="capital" >
+                    <input type="text" class="form-control" id="capital" name="capital" value="<?php echo $_SESSION['company_capital']; ?>">
                 </div>
                 <div class="mb-3">
                     <label for="localisation" class="form-label">Localisation</label>
-                    <input type="text" class="form-control" id="localisation" name="localisation" >
+                    <input type="text" class="form-control" id="localisation" name="localisation" value="<?php echo $_SESSION['company_localisation']; ?>">
                 </div>
-                <button type="button" class="btn btn-primary" onclick="showCompanyDetails()">Show</button>
                 <button type="submit" class="btn btn-primary">Update Company</button>
             </form>
         </div>
     </div>
 </div>
 <!-- End Update Company Form -->
-<!--
-<script>
-    function validateForm() {
-         var email = document.getElementById('email').value;
-        var nom_societe = document.getElementById('nom_societe').value;
-        var numero = document.getElementById('numero').value;
-        var capital = document.getElementById('capital').value;
-        var localisation = document.getElementById('localisation').value;
 
-        // Check if any of the fields are empty
-        if (email.trim() === '' || nom_societe.trim() === '' || numero.trim() === '' || capital.trim() === '' || localisation.trim() === '') {
-            alert('Please fill in all fields.');
-            return false; // Prevent form submission
-        }
 
-        // If all fields have valid input, return true to allow form submission
-        return true;
-    }
-</script>
--->
+
+
+
 
 
     <!-- Full Screen Search Start -->

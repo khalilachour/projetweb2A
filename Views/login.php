@@ -1,14 +1,5 @@
 <?php
 session_start();
-if (isset($_SESSION["user"])) {
-    // Redirect the user to the appropriate page based on their type
-    if ($_SESSION["user_type"] == "admin") {
-        header("Location: back/layout-static.php");
-    } else {
-        header("Location: contact.php");
-    }
-    exit(); // Exit to prevent further execution
-}
 
 require_once "../config.php"; // Adjust the path as needed
 
@@ -31,11 +22,19 @@ if (isset($_POST["login"])) {
         if ($user) {
             // Check if the provided password matches the hashed password
             if (password_verify($password, $user["password"])) {
-                // Redirect based on user type
+                // Store user information in session
+                $_SESSION["user"] = $user["username"]; // Store username
+                $_SESSION["user_type"] = $user["type"]; // Store user type
+
+                // If the user is a company, store company name
+                if ($user["type"] == 'societe') {
+                    $_SESSION["company"] = $user["nom_societe"]; // Store company name
+                }
+
+                // Redirect to the appropriate page
                 if ($user['type'] == 'admin') {
                     header("Location: back/layout-static.php");
                 } else {
-                    $_SESSION["user"] = "yes";
                     header("Location: contact.php");
                 }
                 exit(); // Exit after redirection
