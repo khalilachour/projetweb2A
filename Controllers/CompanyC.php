@@ -17,6 +17,26 @@ class CompanyC {
             die('Erreur : '.$e->getMessage());
         }
     }
+    public function getCompanyByEmail($email) {
+        $sql = "SELECT * FROM Societes WHERE email = :email";
+        $db = config::getConnexion();
+        try {
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(':email', $email);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($result) {
+                // If email exists, return the data
+                return $result;
+            } else {
+                return false;
+            }
+        } catch (Exception $e) {
+            die('Erreur :'.$e->getMessage());
+        }
+    }
+    
+    
 
     public function selectCompany($id) {
         $sql = "SELECT * FROM Societes WHERE societe_id=:id";

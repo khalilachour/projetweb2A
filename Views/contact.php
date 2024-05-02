@@ -44,58 +44,23 @@
         </ul>
         <button type="button" class="btn text-secondary ms-3" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fa fa-search"></i></button>
         <a href="#" class="btn btn-secondary text-light rounded-pill py-2 px-4 ms-3">Pro Version</a>
-        <!-- User's name -->
+        <!-- User's name tag -->
         <div class="ms-3">
             <?php
             session_start();
-            if (isset($_SESSION["user"])) {
-                
-                echo "<span class='text-secondary me-2'>Welcome, " . $_SESSION["user"] . "</span>";
-                
+            if (isset($_SESSION["user_email"])) {
+                // Check if the user is a company
+                if ($_SESSION["user_type"] == 'societe' && isset($_SESSION["company"])) {
+                    echo "<span class='text-secondary me-2'>Welcome, " . $_SESSION["company"] . "</span>";
+                } else {
+                    echo "<span class='text-secondary me-2'>Welcome, " . $_SESSION["username_up"] . "</span>";
+                }
             }
             ?>
         </div>
     </div>
 </nav>
 <!-- Navbar End -->
-
-<!-- Update Company Form -->
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-7">
-            <div class="section-title position-relative text-center mb-5 pb-2">
-                <h6 class="position-relative d-inline text-primary ps-4">Update Company</h6>
-                <h2 class="mt-2">Enter Company Details</h2>
-            </div>
-            <form action="update_companies.php" method="POST">
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" value="<?php echo $_SESSION['user_email'] ?? ''; ?>" readonly>
-                </div>
-                <div class="mb-3">
-                    <label for="nom_societe" class="form-label">Company Name</label>
-                    <input type="text" class="form-control" id="nom_societe" name="nom_societe" value="<?php echo $_SESSION['company_name'] ?? ''; ?>">
-                </div>
-                <div class="mb-3">
-                    <label for="numero" class="form-label">Numero</label>
-                    <input type="text" class="form-control" id="numero" name="numero" value="<?php echo $_SESSION['company_numero'] ?? ''; ?>">
-                </div>
-                <div class="mb-3">
-                    <label for="capital" class="form-label">Capital</label>
-                    <input type="text" class="form-control" id="capital" name="capital" value="<?php echo $_SESSION['company_capital'] ?? ''; ?>">
-                </div>
-                <div class="mb-3">
-                    <label for="localisation" class="form-label">Localisation</label>
-                    <input type="text" class="form-control" id="localisation" name="localisation" value="<?php echo $_SESSION['company_localisation'] ?? ''; ?>">
-                </div>
-                <button type="submit" class="btn btn-primary">Update Company</button>
-            </form>
-        </div>
-    </div>
-</div>
-<!-- End Update Company Form -->
-
-
     <!-- Hero Start -->
     <div class="container-fluid bg-primary py-5 hero-header mb-5">
         <div class="container my-5 py-5 px-lg-5">
@@ -119,243 +84,62 @@
 
     </div>
     <!-- Hero End -->
-   
-<!--
-login companies
-<body>
-    <div class="container">
-        <h2>Login</h2>
-        <form action="/projetweb2/login.php" method="post">
-            <div class="mb-3">
-                <label for="email" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp">
-            </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" name="password">
-            </div>
-            <button type="submit" class="btn btn-primary">Login</button>
-        </form>
-    </div>
-</body>-->
-<!-- Choose Form Start -->
-<div class="container py-5">
-<h2 class="mb-4 text-center">Login</h2>
-        <form action="login.php" method="post">
-            <div class="mb-3">
-                <input type="text" placeholder="Enter Email" name="email" class="form-control">
-            </div>
-            <div class="mb-3">
-                <input type="password" placeholder="Enter Password" name="password" class="form-control">
-            </div>
-            <div class="d-grid">
-                <button type="submit" name="login" class="btn btn-primary">Login</button>
-            </div>
-        </form>
-        <div class="alert alert-danger mt-3">
-            <p><?php echo isset($errorMessage) ? $errorMessage : ''; ?></p>
-        </div>
-        <div class="register-link">
-            <p>Not registered yet? <a href="../projetweb2/Views/contact.php">Register Here</a></p>
-        </div>
-    <div class="row justify-content-center">
-        <div class="col-lg-7">
-            <div class="section-title position-relative text-center mb-5 pb-2">
-                <h6 class="position-relative d-inline text-primary ps-4">Choose Form</h6>
-                <h2 class="mt-2">Select the form you want to fill</h2>
-            </div>
-            <div class="text-center">
-                <button class="btn btn-primary me-3" onclick="showCompanyForm()">Add Company</button>
-                <button class="btn btn-primary" onclick="showUserForm()">Add User</button>
+
+
+<?php
+// Include necessary files and initialize the database connection
+include_once __DIR__ . '/../Controllers/CompanyC.php';
+include_once __DIR__ . '/../Controllers/UserC.php';
+
+$companyC = new CompanyC();
+$userC = new UserController();
+
+// Fetch the company details
+$company = $companyC->getCompanyByEmail($_SESSION['user_email']);
+// Fetch the user details
+$user = $userC->getUserByEmail($_SESSION['user_email']);
+?>
+
+<!-- Company form -->
+<?php if ($company): ?>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                <form method="post" action="update_companies.php">
+                    <label for="email">Email:</label><br>
+                    <input type="email" id="email" name="email" value="<?php echo $company['email']; ?>"><br>
+                    <label for="nom_societe">Company Name:</label><br>
+                    <input type="text" id="nom_societe" name="nom_societe" value="<?php echo $company['nom_societe']; ?>"><br>
+                    <label for="numero">Number:</label><br>
+                    <input type="text" id="numero" name="numero" value="<?php echo $company['numero']; ?>"><br>
+                    <label for="capital">Capital:</label><br>
+                    <input type="text" id="capital" name="capital" value="<?php echo $company['capital']; ?>"><br>
+                    <label for="localisation">Location:</label><br>
+                    <input type="text" id="localisation" name="localisation" value="<?php echo $company['localisation']; ?>"><br>
+                    <input type="submit" value="Update" class="btn btn-primary mt-3">
+                </form>
             </div>
         </div>
     </div>
-</div>
-<script>
-    function showCompanyForm() {
-        document.getElementById('companyForm').style.display = 'block';
-        document.getElementById('userForm').style.display = 'none';
-    }
+<?php endif; ?>
 
-    function showUserForm() {
-        document.getElementById('companyForm').style.display = 'none';
-        document.getElementById('userForm').style.display = 'block';
-    }
-</script>
-
-<!-- Add Company Form Start -->
-<div class="container py-5" id="companyForm" style="display: none;">
-    <div class="row justify-content-center">
-        <div class="col-lg-7">
-            <div class="section-title position-relative text-center mb-5 pb-2">
-                <h6 class="position-relative d-inline text-primary ps-4">Add Company</h6>
-                <h2 class="mt-2">Enter Company Details</h2>
+<!-- User form -->
+<?php if ($user): ?>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                <form method="post" action="update_Users.php">
+                    <label for="username">Username:</label><br>
+                    <input type="text" id="username" name="username" value="<?php echo $user["username_up"]; ?>"><br>
+                    <label for="type">Type:</label><br>
+                    <input type="text" id="type" name="type" value="<?php echo $user['user_type']; ?>"><br>
+                    <!-- Add other form fields (like age and localisation) here -->
+                    <input type="submit" value="Update" class="btn btn-primary mt-3">
+                </form>
             </div>
-            <form action="add_companies.php" method="POST">
-
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <div class="form-floating">
-                            <input type="text" class="form-control" id="nom" name="nom" placeholder="Company Name" >
-                            <label for="nom">Company Name</label>
-                        </div>
-                        <p class="help-block" id="nomError"></p>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-floating">
-                            <input type="text" class="form-control" id="email" name="email" placeholder="Email" >
-                            <label for="email">Email</label>
-                        </div>
-                        <p class="help-block" id="emailError"></p>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-floating">
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Password" >
-                            <label for="password">Password</label>
-                        </div>
-                        <p class="help-block" id="passwordError"></p>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-floating">
-                            <input type="text" class="form-control" id="type" name="type" placeholder="Type" >
-                            <label for="type">Type</label>
-                        </div>
-                        <p class="help-block" id="typeError"></p>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-floating">
-                            <input type="text" class="form-control" id="numero" name="numero" placeholder="Numero" >
-                            <label for="numero">Numero</label>
-                        </div>
-                        <p class="help-block" id="numeroError"></p>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-floating">
-                            <input type="text" class="form-control" id="capital" name="capital" placeholder="Capital" >
-                            <label for="capital">Capital</label>
-                        </div>
-                        <p class="help-block" id="capitalError"></p>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-floating">
-                            <input type="text" class="form-control" id="localisation" name="localisation" placeholder="Localisation" >
-                            <label for="localisation">Localisation</label>
-                        </div>
-                        <p class="help-block" id="localisationError"></p>
-                    </div>
-                    <div class="col-12">
-                        <button class="btn btn-primary w-100 py-3" type="submit">Add Company</button>
-                    </div>
-                </div>
-            </form>
         </div>
     </div>
-</div>
-<!-- User Form -->
-<div class="container py-5" id="userForm" style="display: none;">
-    <div class="row justify-content-center">
-        <div class="col-lg-7">
-            <div class="section-title position-relative text-center mb-5 pb-2">
-                <h6 class="position-relative d-inline text-primary ps-4">Add User</h6>
-                <h2 class="mt-2">Enter User Details</h2>
-            </div>
-            <form action="add_Users.php" method="post" onsubmit="return validateFormUser();">
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <div class="form-floating">
-                            <input type="text" class="form-control" id="username" name="username" placeholder="Username">
-                            <label for="username">Username</label>
-                        </div>
-                        <p class="help-block" id="usernameError"></p>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-floating">
-                            <input type="text" class="form-control" id="email" name="email" placeholder="Email">
-                            <label for="email">Email</label>
-                        </div>
-                        <p class="help-block" id="emailError"></p>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-floating">
-                            <input type="text" class="form-control" id="password" name="password" placeholder="Password">
-                            <label for="password">Password</label>
-                        </div>
-                        <p class="help-block" id="passwordError"></p>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-floating">
-                            <select class="form-select" id="type" name="type">
-                                <option value="normal">Normal</option>
-                                <option value="admin">Admin</option>
-                            </select>
-                            <label for="type">Type</label>
-                        </div>
-                        <p class="help-block" id="typeError"></p>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-floating">
-                            <input type="number" class="form-control" id="age" name="age" placeholder="Age">
-                            <label for="age">Age</label>
-                        </div>
-                        <p class="help-block" id="ageError"></p>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-floating">
-                            <input type="text" class="form-control" id="localisation" name="localisation" placeholder="Localisation">
-                            <label for="localisation">Localisation</label>
-                        </div>
-                        <p class="help-block" id="localisationError"></p>
-                    </div>
-                    <div class="col-12">
-                        <button class="btn btn-primary w-100 py-3" type="submit">Add User</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<!-- Update Company Form -->
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-7">
-            <div class="section-title position-relative text-center mb-5 pb-2">
-                <h6 class="position-relative d-inline text-primary ps-4">Update Company</h6>
-                <h2 class="mt-2">Enter Company Details</h2>
-            </div>
-            <form action="update_companies.php" method="POST">
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" value="<?php echo $_SESSION['_email']; ?>" readonly>
-                </div>
-                <div class="mb-3">
-                    <label for="nom_societe" class="form-label">Company Name</label>
-                    <input type="text" class="form-control" id="nom_societe" name="nom_societe" value="<?php echo $_SESSION['company_name']; ?>">
-                </div>
-                <div class="mb-3">
-                    <label for="numero" class="form-label">Numero</label>
-                    <input type="text" class="form-control" id="numero" name="numero" value="<?php echo $_SESSION['company_numero']; ?>">
-                </div>
-                <div class="mb-3">
-                    <label for="capital" class="form-label">Capital</label>
-                    <input type="text" class="form-control" id="capital" name="capital" value="<?php echo $_SESSION['company_capital']; ?>">
-                </div>
-                <div class="mb-3">
-                    <label for="localisation" class="form-label">Localisation</label>
-                    <input type="text" class="form-control" id="localisation" name="localisation" value="<?php echo $_SESSION['company_localisation']; ?>">
-                </div>
-                <button type="submit" class="btn btn-primary">Update Company</button>
-            </form>
-        </div>
-    </div>
-</div>
-<!-- End Update Company Form -->
-
-
-
-
-
-
-
+<?php endif; ?>
     <!-- Full Screen Search Start -->
     <div class="modal fade" id="searchModal" tabindex="-1">
         <div class="modal-dialog modal-fullscreen">

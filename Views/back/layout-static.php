@@ -34,10 +34,15 @@
         </form>
         <!-- User's name -->
         <div class="me-3 text-white">
-            <?php
+        <?php
             session_start();
-            if (isset($_SESSION["user"])) {
-                echo "Welcome, " . $_SESSION["user"];
+            if (isset($_SESSION["user_email"])) {
+                // Check if the user is a company
+                if ($_SESSION["user_type"] == 'societe' && isset($_SESSION["company"])) {
+                    echo "<span class='text-secondary me-2'>Welcome, " . $_SESSION["company"] . "</span>";
+                } else {
+                    echo "<span class='text-secondary me-2'>Welcome, " . $_SESSION["username_up"] . "</span>";
+                }
             }
             ?>
         </div>
@@ -155,6 +160,12 @@ require_once __DIR__ . '/../../Controllers/CompanyC.php';
 </div>
 </script>
 <!-- End Update Company Form -->
+<form method="post" action="">
+    <input type="text" name="search" placeholder="Search...">
+    <input type="submit" value="Search">
+</form>
+
+
    <!-- List of Companies Start -->
 
    <div class="container py-5">

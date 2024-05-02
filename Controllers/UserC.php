@@ -44,6 +44,25 @@ class UserController {
             die('Error: ' . $e->getMessage());
         }
     }
+    public function getUserByEmail($email) {
+        $sql = "SELECT * FROM Users WHERE email = :email";
+        $db = Config::getConnexion();
+        try {
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(':email', $email);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($result) {
+                // If email exists, return the data
+                return $result;
+            } else {
+                return false;
+            }
+        } catch (Exception $e) {
+            die('Error: ' . $e->getMessage());
+        }
+    }
+    
 
     public function deleteUser($id) {
         $sql = "DELETE FROM Users WHERE user_id=:id";

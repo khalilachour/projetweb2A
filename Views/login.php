@@ -19,31 +19,35 @@ if (isset($_POST["login"])) {
         $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($user) {
-            // Check if the provided password matches the hashed password
-            if (password_verify($password, $user["password"])) {
-                // Store user information in session
-                $_SESSION["user"] = $user["username"]; // Store username
-                $_SESSION["user_type"] = $user["type"]; // Store user type
+        // In your login script
+    if ($user) {
+        // Check if the provided password matches the hashed password
+        if (password_verify($password, $user["password"])) {
+            // Store user information in session
+            $_SESSION["user_id"] = $user["user_id"]; // Store user ID
+            $_SESSION["username_up"] = $user["username"]; // Store username
+            $_SESSION["user_email"] = $user["email"]; // Store email
+            $_SESSION["user_type"] = $user["type"]; // Store user type
 
-                // If the user is a company, store company name
-                if ($user["type"] == 'societe') {
-                    $_SESSION["company"] = $user["nom_societe"]; // Store company name
-                }
-
-                // Redirect to the appropriate page
-                if ($user['type'] == 'admin') {
-                    header("Location: back/layout-static.php");
-                } else {
-                    header("Location: contact.php");
-                }
-                exit(); // Exit after redirection
-            } else {
-                echo "<div class='alert alert-danger'>Wrong password</div>";
+            // If the user is a company, store company name
+            if ($user["type"] == 'societe') {
+                $_SESSION["company"] = $user["nom_societe"]; // Store company name
             }
+
+            // Redirect to the appropriate page
+            if ($user['type'] == 'admin') {
+                header("Location: back/layout-static.php");
+            } else {
+                header("Location: contact.php");
+            }
+            exit(); // Exit after redirection
         } else {
-            echo "<div class='alert alert-danger'>Email does not exist</div>";
+            echo "<div class='alert alert-danger'>Wrong password</div>";
         }
+    } else {
+        echo "<div class='alert alert-danger'>Email does not exist</div>";
+    }
+
     } catch (PDOException $e) {
         echo "Connection failed: " . $e->getMessage();
     }
