@@ -120,6 +120,31 @@ class CompanyC {
             return false;
         }
     }
+    public function getCompanyTypes() {
+        $sql = "SELECT DISTINCT type FROM Societes";
+        $db = Config::getConnexion();
+        try {
+            $q = $db->query($sql);
+            $types = $q->fetchAll(PDO::FETCH_COLUMN);
+            return $types;
+        } catch (Exception $e) {
+            die('Erreur : ' . $e->getMessage());
+        }
+    }
 
+    // Method to count the number of companies for each type
+    public function getCompanyCountByType($type) {
+        $sql = "SELECT COUNT(*) AS count FROM Societes WHERE type = :type";
+        $db = Config::getConnexion();
+        try {
+            $q = $db->prepare($sql);
+            $q->bindValue(':type', $type);
+            $q->execute();
+            $result = $q->fetch(PDO::FETCH_ASSOC);
+            return $result['count'];
+        } catch (Exception $e) {
+            die('Erreur : ' . $e->getMessage());
+        }
+    }
 }
 ?>

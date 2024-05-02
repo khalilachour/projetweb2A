@@ -191,7 +191,7 @@ login companies
                 <h6 class="position-relative d-inline text-primary ps-4">Add Company</h6>
                 <h2 class="mt-2">Enter Company Details</h2>
             </div>
-            <form action="add_companies.php" method="POST" onsubmit="return validateCompanyForm();">
+            <form action="add_companies.php" method="POST">
 
                 <div class="row g-3">
                     <div class="col-md-6">
@@ -251,100 +251,6 @@ login companies
         </div>
     </div>
 </div>
-<script>
-    function validateCompanyForm() {
-        // Reset error messages
-        document.getElementById('nomError').innerHTML = '';
-        document.getElementById('emailError').innerHTML = '';
-        document.getElementById('passwordError').innerHTML = '';
-        document.getElementById('typeError').innerHTML = '';
-        document.getElementById('numeroError').innerHTML = '';
-        document.getElementById('capitalError').innerHTML = '';
-        document.getElementById('localisationError').innerHTML = '';
-
-        // Get form values
-        var nom = document.getElementById('nom').value.trim();
-        var email = document.getElementById('email').value.trim();
-        var password = document.getElementById('password').value.trim();
-        var type = document.getElementById('type').value.trim();
-        var numero = document.getElementById('numero').value.trim();
-        var capital = document.getElementById('capital').value.trim();
-        var localisation = document.getElementById('localisation').value.trim();
-
-        // Validate Company Name
-        if (nom === '') {
-            document.getElementById('nomError').innerHTML = 'Company Name is required';
-            return false;
-        } else if (nom.length < 3 || nom.length > 50) {
-            document.getElementById('nomError').innerHTML = 'Company Name must be between 3 and 50 characters';
-            return false;
-        }
-
-        // Validate Email
-        var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (email === '') {
-            document.getElementById('emailError').innerHTML = 'Email is required';
-            return false;
-        } else if (!emailPattern.test(email)) {
-            document.getElementById('emailError').innerHTML = 'Invalid email format';
-            return false;
-        }
-
-        // Validate Password
-        if (password === '') {
-            document.getElementById('passwordError').innerHTML = 'Password is required';
-            return false;
-        } else if (password.length < 8 || password.length > 20) {
-            document.getElementById('passwordError').innerHTML = 'Password must be between 8 and 20 characters';
-            return false;
-        } else if (!/[a-z]/.test(password)) {
-            document.getElementById('passwordError').innerHTML = 'Password must contain at least one lowercase letter';
-            return false;
-        } else if (!/[A-Z]/.test(password)) {
-            document.getElementById('passwordError').innerHTML = 'Password must contain at least one uppercase letter';
-            return false;
-        } else if (!/[0-9]/.test(password)) {
-            document.getElementById('passwordError').innerHTML = 'Password must contain at least one number';
-            return false;
-        } else if (!/[^a-zA-Z0-9]/.test(password)) {
-            document.getElementById('passwordError').innerHTML = 'Password must contain at least one special character';
-            return false;
-        }
-
-        // Validate Type
-        if (type === '') {
-            document.getElementById('typeError').innerHTML = 'Type is required';
-            return false;
-        }
-
-        // Validate Numero
-        if (numero === '') {
-            document.getElementById('numeroError').innerHTML = 'Numero is required';
-            return false;
-        } else if (isNaN(numero)) {
-            document.getElementById('numeroError').innerHTML = 'Numero must be a number';
-            return false;
-        }
-
-        // Validate Capital
-        if (capital === '') {
-            document.getElementById('capitalError').innerHTML = 'Capital is required';
-            return false;
-        } else if (isNaN(capital)) {
-            document.getElementById('capitalError').innerHTML = 'Capital must be a number';
-            return false;
-        }
-
-        // Validate Localisation
-        if (localisation === '') {
-            document.getElementById('localisationError').innerHTML = 'Localisation is required';
-            return false;
-        }
-
-        // If all validations pass
-        return true;
-    }
-</script>
 <!-- User Form -->
 <div class="container py-5" id="userForm" style="display: none;">
     <div class="row justify-content-center">
@@ -408,72 +314,6 @@ login companies
         </div>
     </div>
 </div>
-<!-- Controle
-<script>
-    function validateFormUser() {
-        // Reset error messages
-        document.getElementById('usernameError').innerHTML = '';
-        document.getElementById('emailError').innerHTML = '';
-        document.getElementById('passwordError').innerHTML = '';
-        document.getElementById('typeError').innerHTML = '';
-        document.getElementById('ageError').innerHTML = '';
-        document.getElementById('localisationError').innerHTML = '';
-
-        // Get form values
-        var username = document.getElementById('username').value.trim();
-        var email = document.getElementById('email').value.trim();
-        var password = document.getElementById('password').value.trim();
-        var type = document.getElementById('type').value.trim();
-        var age = document.getElementById('age').value.trim();
-        var localisation = document.getElementById('localisation').value.trim();
-
-        // Validate username
-        if (username === '') {
-            document.getElementById('usernameError').innerHTML = 'Username is required';
-            return false;
-        } else if (username.length < 3 || username.length > 20) {
-            document.getElementById('usernameError').innerHTML = 'Username must be between 3 and 20 characters';
-            return false;
-        }
-
-        // Validate email
-        var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (email === '') {
-            document.getElementById('emailError').innerHTML = 'Email is required';
-            return false;
-        } else if (!emailPattern.test(email)) {
-            document.getElementById('emailError').innerHTML = 'Invalid email format';
-            return false;
-        }
-
-        // Validate password
-        if (password === '') {
-            document.getElementById('passwordError').innerHTML = 'Password is required';
-            return false;
-        } else if (password.length < 6) {
-            document.getElementById('passwordError').innerHTML = 'Password must be at least 6 characters';
-            return false;
-        }
-
-        // Validate age
-        if (age === '') {
-            document.getElementById('ageError').innerHTML = 'Age is required';
-            return false;
-        } else if (isNaN(age) || parseInt(age) <= 0 || parseInt(age) > 150) {
-            document.getElementById('ageError').innerHTML = 'Invalid age';
-            return false;
-        }
-
-        // Validate localisation (optional)
-        // You can add additional validation rules for localisation if needed
-
-        // If all validations pass, return true to submit the form
-        return true;
-    }
-</script>
--->
-
-
 <!-- Update Company Form -->
 <div class="container py-5">
     <div class="row justify-content-center">
