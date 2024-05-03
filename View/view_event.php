@@ -21,9 +21,7 @@
 <p><strong>Date:</strong> <?php echo $event['event_date']; ?></p>
 <p><strong>Place:</strong> <?php echo $event['event_place']; ?></p>
 <p><strong>Description:</strong> <?php echo $event['event_description']; ?></p>
-<!-- Display other event details as needed -->
 
-<!-- You can add additional HTML markup or styling as desired -->
 
 </body>
 </html>

@@ -9,14 +9,14 @@
 <body>
 
 <form action="update_event.php" method="post">
-    <!-- Form fields pre-populated with current event details -->
+    
     <input type="text" name="event_name" value="<?php echo $event['event_name']; ?>">
     <input type="text" name="event_type" value="<?php echo $event['event_type']; ?>">
-    <!-- Other event details -->
+   
     <input type="date" name="event_date" value="<?php echo $event['event_date']; ?>">
     <input type="text" name="event_place" value="<?php echo $event['event_place']; ?>">
     <textarea name="event_description"><?php echo $event['event_description']; ?></textarea>
-    <!-- Other event details -->
+   
 
     <button type="submit">Update Event</button>
 </form>
