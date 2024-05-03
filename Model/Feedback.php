@@ -1,4 +1,5 @@
 <?php
+// Feedback class
 class Feedback {
     private $pdo;
 
@@ -64,12 +65,25 @@ class Feedback {
         }
     }
 
-    // Add method to retrieve all feedback entries
-    public function getAllFeedbacks() {
+    
+    public function readAllFeedback() {
         $sql = "SELECT * FROM feedback";
 
         try {
             $stmt = $this->pdo->query($sql);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            // Handle the exception
+            echo "Error: " . $e->getMessage();
+        }
+    }
+    
+    public function searchFeedbackByName($candidateName) {
+        $sql = "SELECT * FROM feedback WHERE candidate_name LIKE :candidate_name";
+        
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([':candidate_name' => '%' . $candidateName . '%']);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             // Handle the exception
