@@ -1,6 +1,7 @@
 <?php
 require_once 'Model/Feedback.php';
 
+// FeedbackC class
 class FeedbackC {
     private $feedbackModel;
 
@@ -71,4 +72,21 @@ class FeedbackC {
         header('Location: index.php');
         exit();
     }
+
+    public function readAllFeedback() {
+        // Call the model method to retrieve all feedback entries
+        $feedbackEntries = $this->feedbackModel->readAllFeedback();
+
+        // Return the retrieved feedback entries
+        return $feedbackEntries;
+    }
+
+    public function searchFeedbackByName($candidateName) {
+        // Call the model method to search for feedback entries by candidate name
+        $feedbackEntries = $this->feedbackModel->searchFeedbackByName($candidateName);
+
+        // Return the retrieved feedback entries
+        return $feedbackEntries;
+    }
 }
+
