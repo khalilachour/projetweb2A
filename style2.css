@@ -1,0 +1,59 @@
+/* Style pour le conteneur principal */
+.container {
+  display: flex;
+  background-color: #190b3f; /* Couleur de fond bleu clair */
+  width: 380px; /* Largeur du conteneur carré */
+  height: 210px; /* Hauteur du conteneur carré */
+}
+
+/* Style pour le conteneur du calendrier */
+.calendar-container {
+  flex: 1; /* Prendra la moitié de l'espace disponible */
+  padding: 10px; /* Espacement intérieur */
+}
+
+/* Style pour le calendrier */
+.calendar {
+  background-color: #190b3f; /* Fond blanc pour le calendrier */
+
+  padding: 5px; /* Espacement intérieur */
+}
+
+/* Style pour la navigation du mois */
+.month-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px; /* Espacement en bas */
+}
+
+/* Style pour le champ d'information */
+.info-container {
+  flex: 1; /* Prendra la moitié de l'espace disponible */
+  
+  padding: 5px; /* Espacement intérieur */
+  margin-left: 5px; /* Marge à gauche */
+  background-color: white;
+  
+  border: 2px solid black;
+
+}
+
+.info-container h3{
+  color: rgb(251, 53, 53);
+  text-decoration: underline;
+}
+
+.month-navigation button {
+  background-color: rgb(251, 53, 53); /* Couleur bleue pour les flèches */
+  color: white;
+  border-color: white;
+}
+
+.calendar tr{
+  color: white;
+} 
+#current-month{
+  color: white;
+  text-transform: uppercase;
+} 
