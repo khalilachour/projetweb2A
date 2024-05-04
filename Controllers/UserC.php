@@ -31,6 +31,31 @@ class UserController {
             die('Error: '.$e->getMessage());
         }
     }
+    public function listUsersPaginated($start_from, $results_per_page) {
+        $sql = "SELECT * FROM users LIMIT :start_from, :results_per_page";
+        $db = Config::getConnexion();
+        try {
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(':start_from', $start_from, PDO::PARAM_INT);
+            $stmt->bindValue(':results_per_page', $results_per_page, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            die('Error: ' . $e->getMessage());
+        }
+    }
+
+    // Method to retrieve total number of users
+    public function getTotalUsersCount() {
+        $sql = "SELECT COUNT(*) as total FROM users";
+        $db = Config::getConnexion();
+        try {
+            $stmt = $db->query($sql);
+            return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+        } catch (Exception $e) {
+            die('Error: ' . $e->getMessage());
+        }
+    }
 
     public function getUser($id) {
         try {

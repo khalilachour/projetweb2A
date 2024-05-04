@@ -4,6 +4,31 @@ include_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../Models/Company.php';
 
 class CompanyC {
+        // Method to retrieve a paginated list of companies
+        public function listCompaniesPaginated($start_from, $results_per_page) {
+            $sql = "SELECT * FROM Societes LIMIT $start_from, $results_per_page";
+            $db = Config::getConnexion();
+            try {
+                $stmt = $db->query($sql);
+                $companies = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                return $companies;
+            } catch (Exception $e) {
+                die('Error: ' . $e->getMessage());
+            }
+        }
+    
+        // Method to retrieve the total number of companies
+        public function getTotalCompaniesCount() {
+            $sql = "SELECT COUNT(*) AS total FROM Societes";
+            $db = Config::getConnexion();
+            try {
+                $stmt = $db->query($sql);
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                return $result['total'];
+            } catch (Exception $e) {
+                die('Error: ' . $e->getMessage());
+            }
+        }
 
     public function listCompanies() {
         $sql = "SELECT * FROM Societes";
@@ -88,7 +113,7 @@ class CompanyC {
             $q->bindValue(':email', $company->getEmail());
             $q->bindValue(':password', $company->getPassword());
             $q->bindValue(':type', $company->getType());
-            $q->bindValue(':numero', $company->getNumero());
+            $q->bindValue(':numero', $company->getNumero()); 
             $q->bindValue(':capital', $company->getCapital());
             $q->bindValue(':localisation', $company->getLocalisation());
             $q->execute();

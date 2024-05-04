@@ -30,8 +30,7 @@ if(!empty($nom) && !empty($email) && !empty($password) && !empty($type) && !empt
     $company = new Company($nom, $email, $hashedPassword, $type, $numero, $capital, $localisation);
     $companyC->addCompany($company);
     // Redirect to another page if necessary
-    header("Location: login_views.php");
-    $_SESSION['welcome_message'] = true;
+    $successMessage = "Successfully added to the database!";
 
     // header('location:listCompanies.php');
 } 
@@ -44,4 +43,49 @@ if(!empty($nom) && !empty($email) && !empty($password) && !empty($type) && !empt
     </div>
     <?php $_SESSION['welcome_message'] = false; ?>
 <?php endif; ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Account Creation</title>
+    <style>
+        .success-message {
+            background-color: #dff0d8;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            font-size: 20px;
+            animation: fadeout 2s 4s forwards;
+        }
+        @keyframes fadeout {
+            from {opacity: 1;}
+            to {opacity: 0;}
+        }
+    </style>
+</head>
+<body>
+    <!-- Display success message if set -->
+    <?php if(!empty($successMessage)): ?>
+        <div class="success-message">
+            <?php echo $successMessage; ?>
+        </div>
+    <?php endif; ?>
+    <script>
+        // Delayed redirection after 3 seconds
+        setTimeout(function(){
+            window.location.href = 'login_view.php'; // Redirect to the same page
+        }, 3000);
+    </script>
+</body>
+</html>
+
 

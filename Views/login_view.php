@@ -139,10 +139,25 @@
                         <p class="help-block" id="add_c_passwordError"></p>
                     </div>
                     <div class="col-12">
-                        <div class="form-floating">
-                            <input type="text" class="form-control" id="add_c_type" name="add_c_type" placeholder="Type" >
-                            <label for="add_c_type">Type</label>
-                        </div>
+                            <div class="form-floating">
+                                <select class="form-select" id="add_c_type" name="add_c_type">
+                                    <option value="" selected disabled>Choisissez un type</option>
+                                    <option value="Technologie de l'information">Technologie de l'information</option>
+                                    <option value="Finance">Finance</option>
+                                    <option value="Santé">Santé</option>
+                                    <option value="Manufacture">Manufacture</option>
+                                    <option value="Education">Éducation</option>
+                                    <option value="Commerce">Commerce</option>
+                                    <option value="Consulting">Consulting</option>
+                                    <option value="Immobilier">Immobilier</option>
+                                    <option value="Alimentation et boissons">Alimentation et boissons</option>
+                                    <option value="Transport">Transport</option>
+                                    <option value="Autres">Autres</option>
+                                </select>
+                                <label for="add_c_type">Type d'entreprise</label>
+                            </div>
+                    </div>
+
                         <p class="help-block" id="add_c_typeError"></p>
                     </div>
                     <div class="col-12">
@@ -187,68 +202,62 @@
         var capital = document.getElementById('add_c_capital').value.trim();
         var localisation = document.getElementById('add_c_localisation').value.trim();
 
-        // Reset error messages
-        document.getElementById('add_c_nomError').innerHTML = "";
-        document.getElementById('add_c_emailError').innerHTML = "";
-        document.getElementById('add_c_passwordError').innerHTML = "";
-        document.getElementById('add_c_typeError').innerHTML = "";
-        document.getElementById('add_c_numeroError').innerHTML = "";
-        document.getElementById('add_c_capitalError').innerHTML = "";
-        document.getElementById('add_c_localisationError').innerHTML = "";
+        // Reset error messages and field styles
+        resetErrorsAndStyles();
 
         var isValid = true;
 
         // Validate company name
         if (nom === "") {
-            document.getElementById('add_c_nomError').innerHTML = "Please enter company name";
+            showErrorAndStyle('add_c_nomError', 'add_c_nom', "Please enter company name");
             isValid = false;
         }
 
         // Validate email
         if (email === "") {
-            document.getElementById('add_c_emailError').innerHTML = "Please enter email";
+            showErrorAndStyle('add_c_emailError', 'add_c_email', "Please enter email");
             isValid = false;
         } else if (!isValidEmail(email)) {
-            document.getElementById('add_c_emailError').innerHTML = "Invalid email format";
+            showErrorAndStyle('add_c_emailError', 'add_c_email', "Invalid email format");
             isValid = false;
         }
 
         // Validate password
         if (password === "") {
-            document.getElementById('add_c_passwordError').innerHTML = "Please enter password";
+            showErrorAndStyle('add_c_passwordError', 'add_c_password', "Please enter password");
             isValid = false;
         } else if (password.length < 6) {
-            document.getElementById('add_c_passwordError').innerHTML = "Password must be at least 6 characters";
+            showErrorAndStyle('add_c_passwordError', 'add_c_password', "Password must be at least 6 characters");
             isValid = false;
         }
 
         // Validate type
         if (type === "") {
-            document.getElementById('add_c_typeError').innerHTML = "Please enter type";
+            showErrorAndStyle('add_c_typeError', 'add_c_type', "Please select a type");
             isValid = false;
         }
 
         // Validate numero
         if (numero === "") {
-            document.getElementById('add_c_numeroError').innerHTML = "Please enter numero";
+            showErrorAndStyle('add_c_numeroError', 'add_c_numero', "Please enter numero");
             isValid = false;
         } else if (!isValidNumber(numero)) {
-            document.getElementById('add_c_numeroError').innerHTML = "Invalid numero format";
+            showErrorAndStyle('add_c_numeroError', 'add_c_numero', "Invalid numero format");
             isValid = false;
         }
 
         // Validate capital
         if (capital === "") {
-            document.getElementById('add_c_capitalError').innerHTML = "Please enter capital";
+            showErrorAndStyle('add_c_capitalError', 'add_c_capital', "Please enter capital");
             isValid = false;
         } else if (!isValidCapital(capital)) {
-            document.getElementById('add_c_capitalError').innerHTML = "Invalid capital format";
+            showErrorAndStyle('add_c_capitalError', 'add_c_capital', "Invalid capital format");
             isValid = false;
         }
 
         // Validate localisation
         if (localisation === "") {
-            document.getElementById('add_c_localisationError').innerHTML = "Please enter localisation";
+            showErrorAndStyle('add_c_localisationError', 'add_c_localisation', "Please enter localisation");
             isValid = false;
         }
 
@@ -272,7 +281,27 @@
         var capitalRegex = /^\d+(\.\d{1,2})?$/; // Allows up to 2 decimal places
         return capitalRegex.test(input);
     }
+
+    // Function to reset error messages and field styles
+    function resetErrorsAndStyles() {
+        var errorFields = document.querySelectorAll('.error-message');
+        errorFields.forEach(function(element) {
+            element.innerHTML = "";
+        });
+
+        var formFields = document.querySelectorAll('.form-control');
+        formFields.forEach(function(element) {
+            element.style.border = "";
+        });
+    }
+
+    // Function to show error message and style invalid field
+    function showErrorAndStyle(errorId, fieldId, errorMessage) {
+        document.getElementById(errorId).innerHTML = errorMessage;
+        document.getElementById(fieldId).style.border = "2px solid red";
+    }
 </script>
+
 
 
 

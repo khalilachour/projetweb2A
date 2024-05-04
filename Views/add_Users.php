@@ -74,14 +74,14 @@ if(!empty($username) && !empty($email) && !empty($password) && !empty($type) && 
         </div>
     <?php endif; ?>
     <script>
+        // Delayed redirection after 3 seconds
         setTimeout(function(){
-            if(document.querySelector('.success-message')){
-                document.querySelector('.success-message').style.display = 'none';
-            }
-        }, 6000);
+            window.location.href = 'login_view.php'; // Redirect to the same page
+        }, 3000);
     </script>
 </body>
 </html>
+
 
 
 

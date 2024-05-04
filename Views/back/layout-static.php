@@ -14,6 +14,18 @@
     <title>Static Navigation - SB Admin</title>
     <link href="css/styles.css" rel="stylesheet">
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <title>List of Companies and Users</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <style>
+        .list-container {
+            display: none;
+        }
+        .active {
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -47,7 +59,7 @@
             ?>
         </div>
     </nav>
-        <div id="layoutSidenav">
+    <div id="layoutSidenav">
             <div id="layoutSidenav_nav">
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
@@ -66,7 +78,7 @@
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" href="layout-static.php">Static Navigation</a>
-                                    <a class="nav-link" href="layout-sidenav-light.php">Light Sidenav</a>
+                                    <a class="nav-link" href="layout-sidenav-light.php">Statistics</a>
                                 </nav>
                             </div>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
@@ -117,195 +129,194 @@
                     </div>
                 </nav>
             </div>
-            <?php
-require_once __DIR__ . '/../../Controllers/CompanyC.php';
-?>
-
-
-
-                    <!-- Update Company Form -->
 <div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-7">
-            <div class="section-title position-relative text-center mb-5 pb-2">
-                <h6 class="position-relative d-inline text-primary ps-4">Update Company</h6>
-                <h2 class="mt-2">Enter Company Details</h2>
+<div class="container py-5">
+    <!-- Buttons for toggling between companies and users -->
+        <div class="row justify-content-center mb-2">
+            <div class="col-6 col-md-3">
+                <button id="showCompanies" class="btn btn-primary btn-sm btn-block active">Companies</button>
             </div>
-            <form action="/../../projetweb2/Views/update_companies.php" method="POST" >
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" >
-                </div>
-                <div class="mb-3">
-                    <label for="nom_societe" class="form-label">Company Name</label>
-                    <input type="text" class="form-control" id="nom_societe" name="nom_societe" >
-                </div>
-                <div class="mb-3">
-                    <label for="numero" class="form-label">Numero</label>
-                    <input type="text" class="form-control" id="numero" name="numero" >
-                </div>
-                <div class="mb-3">
-                    <label for="capital" class="form-label">Capital</label>
-                    <input type="text" class="form-control" id="capital" name="capital" >
-                </div>
-                <div class="mb-3">
-                    <label for="localisation" class="form-label">Localisation</label>
-                    <input type="text" class="form-control" id="localisation" name="localisation" >
-                </div>
-                <button type="button" class="btn btn-primary" onclick="showCompanyDetails()">Show</button>
-                <button type="submit" class="btn btn-primary">Update Company</button>
-            </form>
+            <div class="col-6 col-md-3">
+                <button id="showUsers" class="btn btn-primary btn-sm btn-block">Users</button>
+            </div>
         </div>
-    </div>
 </div>
-</script>
-<!-- End Update Company Form -->
-<form method="post" action="">
-    <input type="text" name="search" placeholder="Search...">
-    <input type="submit" value="Search">
-</form>
-
-
-   <!-- List of Companies Start -->
-
-   <div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-10">
-            <div class="section-title position-relative text-center mb-5 pb-2">
-                <h2 class="mt-2">List of Companies</h2>
-            </div>
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Company Name</th>
-                            <th>Email</th>
-                            <th>Type</th>
-                            <th>Numero</th>
-                            <th>Capital</th>
-                            <th>Localisation</th>
-                            <th>Actions</th> <!-- Added Actions column -->
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        require_once __DIR__ . '/../../Controllers/CompanyC.php';
-
-                        $companyC = new CompanyC();
-
-                        if (method_exists($companyC, 'listCompanies') && true) {
-                            $result = $companyC->listCompanies();
-                        } else {
-                            $result = [];
-                        }
-
-                        foreach ($result as $row) {
-                            echo "<tr>";
-                            echo "<td>{$row['societe_id']}</td>";
-                            echo "<td>{$row['nom_societe']}</td>";
-                            echo "<td>{$row['email']}</td>";
-                            echo "<td>{$row['type']}</td>";
-                            echo "<td>{$row['numero']}</td>";
-                            echo "<td>{$row['capital']}</td>";
-                            echo "<td>{$row['localisation']}</td>";
-                            // Add Actions column with Delete button
-                            echo "<td><form action='/../../projetweb2/Views/delete_companies.php' method='post'><input type='hidden' name='companyId' value='{$row['societe_id']}'><button type='submit' class='btn btn-danger'>Delete</button></form></td>";
-                            echo "</tr>";
-                        }
-                        ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <div class="row justify-content-center">
-        <div class="col-lg-10">
-            <div class="section-title position-relative text-center mb-5 pb-2">
-                <h2 class="mt-2">List of Users</h2>
-            </div>
-            <div class="table-responsive_Users">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Username</th>
-                            <th>Email</th>
-                            <th>Type</th>
-                            <th>Age</th>
-                            <th>Localisation</th>
-                            <th>Actions</th> <!-- You can add actions here -->
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        // Include necessary files and initialize UserController
-                        require_once __DIR__ . '/../../Controllers/UserC.php';
-                        $userC = new UserController();
-
-                        // Call listUsers method to fetch users
-                        $result = $userC->listUsers();
-
-                        // Loop through the result and display each user
-                        foreach ($result as $row) {
-                            echo "<tr>";
-                            echo "<td>{$row['user_id']}</td>";
-                            echo "<td>{$row['username']}</td>";
-                            echo "<td>{$row['email']}</td>";
-                            echo "<td>{$row['type']}</td>";
-                            echo "<td>{$row['age']}</td>";
-                            echo "<td>{$row['localisation']}</td>";
-                            // You can add actions here, like edit and delete buttons
-                            echo "<td><form action='/../../projetweb2/Views/delete_Users.php' method='post'><input type='hidden' name='user_id' value='{$row['user_id']}'><button type='submit' class='btn btn-danger'>Delete</button></form></td>";// Example: echo "<td><a href='/edit_user.php?id={$row['id']}' class='btn btn-primary'>Edit</a></td>";
-                            echo "</tr>";
-                        }
-                        ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- List of Users Start -->
-
-
-            <div id="layoutSidenav_content">
-                <main>
-                    <div class="container-fluid px-4">
-                        <h1 class="mt-4">Static Navigation</h1>
-                        <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Static Navigation</li>
-                        </ol>
-                        <div class="card mb-4">
-                            <div class="card-body">
-                                <p class="mb-0">
-                                    This page is an example of using static navigation. By removing the
-                                    <code>.sb-nav-fixed</code>
-                                    class from the
-                                    <code>body</code>
-                                    , the top navigation and side navigation will become static on scroll. Scroll down this page to see an example.
-                                </p>
-                            </div>
-                        </div>
-                        <div style="height: 100vh"></div>
-                        <div class="card mb-4"><div class="card-body">When scrolling, the navigation stays at the top of the page. This is the end of the static navigation demo.</div></div>
+        <!-- List of Companies -->
+        <div id="companyList" class="list-container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="section-title position-relative text-center mb-5 pb-2">
+                        <h2 class="mt-2">List of Companies</h2>
                     </div>
-                </main>
-                <footer class="py-4 bg-light mt-auto">
-                    <div class="container-fluid px-4">
-                        <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2023</div>
-                            <div>
-                                <a href="#">Privacy Policy</a>
-                                &middot;
-                                <a href="#">Terms &amp; Conditions</a>
-                            </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Company Name</th>
+                                    <th>Email</th>
+                                    <th>Type</th>
+                                    <th>Numero</th>
+                                    <th>Capital</th>
+                                    <th>Localisation</th>
+                                    <th>Actions</th> <!-- Added Actions column -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- PHP code to populate company table rows -->
+                                <?php
+                                require_once __DIR__ . '/../../Controllers/CompanyC.php';
+                                require_once __DIR__ . '/../../Models/Company.php';
+                                require_once __DIR__ . '/../../config.php';
+
+                                $companyC = new CompanyC();
+
+                                // Pagination configuration
+                                $results_per_page = 5; // Number of results per page
+                                $start_from = 0; // Default starting index
+
+                                // Calculate current page number
+                                $company_page = isset($_GET['company_page']) ? $_GET['company_page'] : 1;
+
+                                // Retrieve companies for the current page
+                                $companies = $companyC->listCompaniesPaginated(($company_page - 1) * $results_per_page, $results_per_page);
+
+                                foreach ($companies as $company) {
+                                    echo "<tr>";
+                                    echo "<td>{$company['societe_id']}</td>";
+                                    echo "<td>{$company['nom_societe']}</td>";
+                                    echo "<td>{$company['email']}</td>";
+                                    echo "<td>{$company['type']}</td>";
+                                    echo "<td>{$company['numero']}</td>";
+                                    echo "<td>{$company['capital']}</td>";
+                                    echo "<td>{$company['localisation']}</td>";
+                                    echo "<td><form action='/../../projetweb2/Views/delete_companies.php' method='post'><input type='hidden' name='companyId' value='{$company['societe_id']}'><button type='submit' class='btn btn-danger'>Delete</button></form></td>";
+                                    echo "</tr>";
+                                }
+
+                                // Calculate total number of pages
+                                $total_companies = $companyC->getTotalCompaniesCount();
+                                $total_pages = ceil($total_companies / $results_per_page);
+                                ?>
+                            </tbody>
+                        </table>
+                        <!-- Pagination Links -->
+                        <div class="pagination justify-content-center mt-4">
+                            <?php if ($company_page > 1): ?>
+                                <a href="?company_page=<?php echo $company_page - 1; ?>" class="page-link">&laquo; Previous</a>
+                            <?php endif; ?>
+
+                            <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                                <a href="?company_page=<?php echo $i; ?>" class="page-link <?php echo ($i == $company_page) ? 'active' : ''; ?>"><?php echo $i; ?></a>
+                            <?php endfor; ?>
+
+                            <?php if ($company_page < $total_pages): ?>
+                                <a href="?company_page=<?php echo $company_page + 1; ?>" class="page-link">Next &raquo;</a>
+                            <?php endif; ?>
                         </div>
                     </div>
-                </footer>
+                </div>
             </div>
         </div>
+        <!-- List of Users -->
+        <div id="userList" class="list-container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="section-title position-relative text-center mb-5 pb-2">
+                        <h2 class="mt-2">List of Users</h2>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Type</th>
+                                    <th>Age</th>
+                                    <th>Localisation</th>
+                                    <th>Actions</th> <!-- You can add actions here -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- PHP code to populate user table rows -->
+                                <?php
+                                require_once __DIR__ . '/../../Controllers/UserC.php';
+                                require_once __DIR__ . '/../../Models/User.php';
+                                require_once __DIR__ . '/../../config.php';
+
+                                $userC = new UserController();
+
+                                // Pagination configuration
+                                $results_per_page = 5; // Number of results per page
+                                $start_from = 0; // Default starting index
+
+                                // Calculate current page number
+                                $user_page = isset($_GET['user_page']) ? $_GET['user_page'] : 1;
+
+                                // Retrieve users for the current page
+                                $users = $userC->listUsersPaginated(($user_page - 1) * $results_per_page, $results_per_page);
+
+                                foreach ($users as $user) {
+                                    echo "<tr>";
+                                    echo "<td>{$user['user_id']}</td>";
+                                    echo "<td>{$user['username']}</td>";
+                                    echo "<td>{$user['email']}</td>";
+                                    echo "<td>{$user['type']}</td>";
+                                    echo "<td>{$user['age']}</td>";
+                                    echo "<td>{$user['localisation']}</td>";
+                                    echo "<td><form action='/../../Views/delete_Users.php' method='post'><input type='hidden' name='user_id' value='{$user['user_id']}'><button type='submit' class='btn btn-danger'>Delete</button></form></td>";
+                                    echo "</tr>";
+                                }
+
+                                // Calculate total number of pages
+                                $total_users = $userC->getTotalUsersCount();
+                                $total_pages = ceil($total_users / $results_per_page);
+                                ?>
+                            </tbody>
+                        </table>
+                        <!-- Pagination Links -->
+                        <div class="pagination justify-content-center mt-4">
+                            <?php if ($user_page > 1): ?>
+                                <a href="?user_page=<?php echo $user_page - 1; ?>" class="page-link">&laquo; Previous</a>
+                            <?php endif; ?>
+
+                            <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                                <a href="?user_page=<?php echo $i; ?>" class="page-link <?php echo ($i == $user_page) ? 'active' : ''; ?>"><?php echo $i; ?></a>
+                            <?php endfor; ?>
+
+                            <?php if ($user_page < $total_pages): ?>
+                                <a href="?user_page=<?php echo $user_page + 1; ?>" class="page-link">Next &raquo;</a>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // JavaScript for toggling between company and user lists
+        document.getElementById("showCompanies").addEventListener("click", function() {
+            document.getElementById("companyList").style.display = "block";
+            document.getElementById("userList").style.display = "none";
+            document.getElementById("showCompanies").classList.add("active");
+            document.getElementById("showUsers").classList.remove("active");
+        });
+
+
+        document.getElementById("showUsers").addEventListener("click", function() {
+            document.getElementById("companyList").style.display = "none";
+            document.getElementById("userList").style.display = "block";
+            document.getElementById("showCompanies").classList.remove("active");
+            document.getElementById("showUsers").classList.add("active");
+        });
+    </script>
+</div>
+
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="js/scripts.js"></script>
     </body>
