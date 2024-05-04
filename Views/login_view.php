@@ -19,6 +19,9 @@
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.js"></script>
+
 </head>
 
 <body>
@@ -179,8 +182,15 @@
                             <input type="text" class="form-control" id="add_c_localisation" name="add_c_localisation" placeholder="Localisation" >
                             <label for="add_c_localisation">Localisation</label>
                         </div>
+                        <div id="map"></div>
+                    <style>
+                    #map { height: 300px; }
+                    </style>
+
                         <p class="help-block" id="add_c_localisationError"></p>
                     </div>
+
+
                     <div class="col-12">
                         <button class="btn btn-primary w-100 py-3" type="submit">Add Company</button>
                     </div>
@@ -189,6 +199,62 @@
         </div>
     </div>
 </div>
+<script>
+    // Initialiser la carte
+    var map = L.map('map').setView([46.603354, 1.888334], 5);
+
+    // Charger les tuiles OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+    }).addTo(map);
+
+    // Ajouter un marqueur que l'utilisateur peut déplacer
+    var marker = L.marker([46.603354, 1.888334], {
+        draggable: true
+    }).addTo(map);
+
+    // Mettre à jour le champ de localisation lorsque le marqueur est déplacé
+    marker.on('dragend', function(e) {
+        document.getElementById('add_c_localisation').value = marker.getLatLng().lat + ', ' + marker.getLatLng().lng;
+    });
+</script>
+
+<script>
+const mapOptions = {
+    center: [46.225, 0.132],
+    zoom: 5
+}
+
+const locationOptions = {
+    maximumAge: 10000,
+    timeout: 5000,
+    enableHighAccuracy: true
+};
+
+var map = new L.map("map", mapOptions);
+
+var layer = new L.TileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+});
+
+map.addLayer(layer);
+
+if ("geolocation" in navigator) {
+    navigator.geolocation.getCurrentPosition(handleLocation, handleLocationError, locationOptions);
+} else {
+    alert("Géolocalisation indisponible");
+}
+
+function handleLocation(position) {
+    map.setZoom(16);
+    map.panTo(new L.LatLng(position.coords.latitude, position.coords.longitude));
+}
+
+function handleLocationError(msg) {
+    alert("Erreur lors de la géolocalisation");
+}
+</script>
+
 
 <script>
     // Function to validate the form fields
