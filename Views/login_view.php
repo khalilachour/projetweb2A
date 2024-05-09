@@ -72,7 +72,7 @@
                         <button type="submit" name="login" class="btn btn-primary" id="submitBtn" disabled>Login</button>
                     </div>
                 </form>
-                                                        <!-- Reset Password Request Form -->
+                        <!-- Reset Password Request Form -->
                     <form action="reset_password_request.php" method="post">
                         <input type="email" name="email" placeholder="Enter your email">
                         <button type="submit" name="reset_request">Reset Password</button>

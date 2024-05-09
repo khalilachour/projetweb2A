@@ -30,7 +30,7 @@
         <ul class="navbar-nav ms-auto py-0">
             <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
             <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
-            <li class="nav-item"><a href="service.html" class="nav-link">Service</a></li>
+            <li class="nav-item"><a href="profile_edit_data_and_skills.php" class="nav-link">Service</a></li>
             <li class="nav-item"><a href="contact.php" class="nav-link">Project</a></li>
             <li class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
@@ -84,62 +84,6 @@
 
     </div>
     <!-- Hero End -->
-
-
-<?php
-// Include necessary files and initialize the database connection
-include_once __DIR__ . '/../Controllers/CompanyC.php';
-include_once __DIR__ . '/../Controllers/UserC.php';
-
-$companyC = new CompanyC();
-$userC = new UserController();
-
-// Fetch the company details
-$company = $companyC->getCompanyByEmail($_SESSION['user_email']);
-// Fetch the user details
-$user = $userC->getUserByEmail($_SESSION['user_email']);
-?>
-
-<!-- Company form -->
-<?php if ($company): ?>
-    <div class="container py-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-7">
-                <form method="post" action="update_companies.php">
-                    <label for="email">Email:</label><br>
-                    <input type="email" id="email" name="email" value="<?php echo $company['email']; ?>"><br>
-                    <label for="nom_societe">Company Name:</label><br>
-                    <input type="text" id="nom_societe" name="nom_societe" value="<?php echo $company['nom_societe']; ?>"><br>
-                    <label for="numero">Number:</label><br>
-                    <input type="text" id="numero" name="numero" value="<?php echo $company['numero']; ?>"><br>
-                    <label for="capital">Capital:</label><br>
-                    <input type="text" id="capital" name="capital" value="<?php echo $company['capital']; ?>"><br>
-                    <label for="localisation">Location:</label><br>
-                    <input type="text" id="localisation" name="localisation" value="<?php echo $company['localisation']; ?>"><br>
-                    <input type="submit" value="Update" class="btn btn-primary mt-3">
-                </form>
-            </div>
-        </div>
-    </div>
-<?php endif; ?>
-
-<!-- User form -->
-<?php if ($user): ?>
-    <div class="container py-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-7">
-                <form method="post" action="update_Users.php">
-                    <label for="username">Username:</label><br>
-                    <input type="text" id="username" name="username" value="<?php echo $user["username_up"]; ?>"><br>
-                    <label for="type">Type:</label><br>
-                    <input type="text" id="type" name="type" value="<?php echo $user['user_type']; ?>"><br>
-                    <!-- Add other form fields (like age and localisation) here -->
-                    <input type="submit" value="Update" class="btn btn-primary mt-3">
-                </form>
-            </div>
-        </div>
-    </div>
-<?php endif; ?>
     <!-- Full Screen Search Start -->
     <div class="modal fade" id="searchModal" tabindex="-1">
         <div class="modal-dialog modal-fullscreen">
