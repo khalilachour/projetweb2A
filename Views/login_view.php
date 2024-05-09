@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="utf-8">
-    <title>SEO Master - SEO Agency Website Template</title>
+    <title>JOB Flash - Job Finder</title>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -28,7 +29,7 @@
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light px-4 px-lg-5 py-3 py-lg-0">
         <div class="container">
-            <a href="" class="navbar-brand"><i class="fa fa-search me-2"></i>SEO<span class="fs-5">Master</span></a>
+            <a href="" class="navbar-brand"><i class="fa fa-search me-2"></i>JOB<span class="fs-5">FLash</span></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="fa fa-bars"></span>
             </button>
@@ -47,31 +48,49 @@
     </nav>
     <!-- Navbar End -->
 
-    <!-- Login Modal Start -->
-    <div class="modal fade" id="loginModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Login</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form class="login-form" action="login.php" method="post">
-                        <div class="mb-3">
-                            <input type="text" placeholder="Enter Email" name="email" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <input type="password" placeholder="Enter Password" name="password" class="form-control">
-                        </div>
-                        <div class="d-grid">
-                            <button type="submit" name="login" class="btn btn-primary">Login</button>
-                        </div>
+<!-- Login Modal Start -->
+<div class="modal fade" id="loginModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Login</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="login-form" action="login.php" method="post">
+                    <div class="mb-3">
+                        <input type="text" placeholder="Enter Email" name="email" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <input type="password" placeholder="Enter Password" name="password" class="form-control">
+                    </div>
+
+                    <!-- Google reCAPTCHA button -->
+                    <div class="g-recaptcha" data-sitekey="6LcVWdcpAAAAAGf7MKK64HMoxczcMstooWDmOeeu" data-callback="onSubmit"></div>
+
+                    <div class="d-grid">
+                        <button type="submit" name="login" class="btn btn-primary" id="submitBtn" disabled>Login</button>
+                    </div>
+                </form>
+                                                        <!-- Reset Password Request Form -->
+                    <form action="reset_password_request.php" method="post">
+                        <input type="email" name="email" placeholder="Enter your email">
+                        <button type="submit" name="reset_request">Reset Password</button>
                     </form>
-                </div>
             </div>
         </div>
     </div>
-    <!-- Login Modal End -->
+</div>
+<!-- Login Modal End -->
+<script>
+    // Enable submit button when reCAPTCHA is successful
+    function onSubmit(token) {
+        document.getElementById("submitBtn").disabled = false;
+    }
+</script>
+
+
+
 
     <!-- Hero Start -->
     <div class="container-xxl py-5 bg-primary hero-header mb-5">

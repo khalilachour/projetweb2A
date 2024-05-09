@@ -18,7 +18,6 @@ if (isset($_POST["login"])) {
         $stmt->bindParam(':email', $email);
         $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
         // In your login script
     if ($user) {
         // Check if the provided password matches the hashed password

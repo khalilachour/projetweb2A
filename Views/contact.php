@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Contact Us - SEO Master</title>
+    <title>Contact Us - JOB FLash</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
@@ -22,7 +22,7 @@
 <body>
 <!-- Navbar Start -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light px-4 px-lg-5 py-3 py-lg-0">
-    <a href="#" class="navbar-brand"><i class="fa fa-search me-2"></i>SEO<span class="fs-5">Master</span></a>
+    <a href="#" class="navbar-brand"><i class="fa fa-search me-2"></i>JOB<span class="fs-5">Flash</span></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
         <span class="fa fa-bars"></span>
     </button>

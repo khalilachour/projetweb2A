@@ -1,4 +1,8 @@
+
 <?php
+require_once "../Controllers/UserC.php";
+require_once "../Models/User.php";
+require_once "../config.php";
 // Check if the request method is POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Check if the userId is set in the POST request

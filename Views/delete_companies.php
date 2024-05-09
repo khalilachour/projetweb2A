@@ -1,4 +1,8 @@
 <?php
+// Include necessary files
+include '../Controllers/CompanyC.php';
+require_once "../Models/Company.php";
+require_once '../config.php';
 // Check if the request method is POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Check if the companyId is set in the POST request
