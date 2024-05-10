@@ -1,0 +1,21 @@
+ travail réalisé par nada anger et dorra yazidi
+1-hiérarchique
+ relationnel
+ réseau
+ base de données orientée objet
+ entité-association
+ document
+ entité-attribut-valeur
+
+2-
+Une base de données est un ensemble d'informations qui est organisé de manière à être facilement accessible, géré et mis à jour. Elle est utilisée par les organisations comme méthode de stockage, de gestion et de récupération de l’informations.
+
+Un système de gestion de base de données (SGBD) est le logiciel qui permet à un ordinateur de stocker, récupérer, ajouter, supprimer et modifier des données.
+3-s les étapes à suivre pour la conception de la base de données :
+ 
+Modélisation conceptuelle
+Modélisation logique
+Conception physique
+Implémentation
+Test et validation
+Maintenance et évolution
