@@ -34,6 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             default:
                 echo "Invalid action!";
                 break;
+            
         }
     }
 }
@@ -103,7 +104,7 @@ $feedbackEntries = $feedbackController->readAllFeedback();
     </nav>
 
     <div id="eventSection">
-        <h2>Event CRUD Interface</h2>
+        <h2>Event </h2>
         <!-- Create Event Form -->
         <h3>Create Event</h3>
         <form action="index.php?action=createEvent" method="post">
@@ -112,20 +113,32 @@ $feedbackEntries = $feedbackController->readAllFeedback();
             <input type="date" name="event_date" required>
             <input type="text" name="event_place" placeholder="Event Place" required>
             <textarea name="event_description" placeholder="Event Description" required></textarea>
+            <input type="number" name="ticket_price" placeholder="Ticket Price" required> 
+            <input type="text" name="ticket_number" placeholder="Ticket Number" required> 
+            
             <button type="submit">Create Event</button>
         </form>
-
-        <h3>All Events</h3>
+        <!-- Search Event Form -->
+    <h3>Search Event</h3>
+    <form action="index.php?action=searchEvent" method="post">
+        <input type="text" name="event_name" placeholder="Event Name">
+        <button type="submit">Search Event</button>
+    </form>
+        <h3> Events</h3>
         <!-- Display All Events -->
         <table class="table">
             <thead>
                 <tr>
                     <th>Event ID</th>
-                    <th>Event Name</th>
+                    <th>Event Name
+                    <button onclick="sortTable('eventTable', 1)">Sort</button>
+                    </th>
                     <th>Event Type</th>
                     <th>Event Date</th>
                     <th>Event Place</th>
                     <th>Event Description</th>
+                    <th>Ticket Price</th>
+                    <th>Ticket Number</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -138,6 +151,9 @@ $feedbackEntries = $feedbackController->readAllFeedback();
                         <td><?php echo $event['event_date']; ?></td>
                         <td><?php echo $event['event_place']; ?></td>
                         <td><?php echo $event['event_description']; ?></td>
+                        <td><?php echo $event['ticket_price']; ?></td> 
+                        <td><?php echo $event['ticket_number']; ?></td>
+                        
                         <td>
                             <!-- Update Event Button -->
                             <button type="button" class="btn btn-primary" onclick="showUpdateEventForm(<?php echo $event['event_id']; ?>)">Update</button>
@@ -179,17 +195,28 @@ $feedbackEntries = $feedbackController->readAllFeedback();
     </div>
 
     <div id="feedbackSection" style="display: none;">
-        <h2>Feedback CRUD Interface</h2>
+        <h2>Feedback </h2>
+        <!-- Search Feedback Form -->
+    <h3>Search Feedback</h3>
+    <form action="index.php?action=searchFeedback" method="post">
+        <input type="text" name="candidate_name" placeholder="Candidate Name">
+        <button type="submit">Search Feedback</button>
+    </form>
         <h3>All Feedback</h3>
         <!-- Display All Feedback Entries -->
         <table class="table">
             <thead>
                 <tr>
                     <th>Feedback ID</th>
-                    <th>Event ID</th>
-                    <th>Candidate Name</th>
+                    <th>Event ID
+                    <button onclick="sortTable('feedbackTable', 1)">Sort</button>
+                    </th>
+                    <th>Candidate Name
+                    <button onclick="sortTable('feedbackTable', 2)">Sort</button>
+                    </th>
                     <th>Feedback Text</th>
                     <th>Satisfaction Rating</th>
+                    <th>Feedback Date</th> 
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -201,6 +228,7 @@ $feedbackEntries = $feedbackController->readAllFeedback();
                         <td><?php echo $feedback['candidate_name']; ?></td>
                         <td><?php echo $feedback['feedback_text']; ?></td>
                         <td><?php echo $feedback['satisfaction_rating']; ?></td>
+                        <td><?php echo $feedback['date_feedback']; ?></td> <!-- Display Feedback Time -->
                         <td>
                             <!-- Update Feedback Button -->
                             <button type="button" class="btn btn-primary" onclick="showUpdateFeedbackForm(<?php echo $feedback['feedback_id']; ?>)">Update</button>
@@ -233,6 +261,8 @@ $feedbackEntries = $feedbackController->readAllFeedback();
                         <input type="date" id="updateEventDate" name="event_date" required>
                         <input type="text" id="updateEventPlace" name="event_place" placeholder="Event Place" required>
                         <textarea id="updateEventDescription" name="event_description" placeholder="Event Description" required></textarea>
+                        <input type="number" id="updateTicketPrice" name="ticket_price" placeholder="Ticket Price" required> 
+                        <input type="text" id="updateTicketNumber" name="ticket_number" placeholder="Ticket Number" required>
                         <button type="submit" class="btn btn-primary">Save Changes</button>
                     </form>
                 </div>
@@ -265,8 +295,36 @@ $feedbackEntries = $feedbackController->readAllFeedback();
 
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
+    
+    
     <script>
+         function sortTable(tableId, columnIndex) {
+    var table = document.getElementById(tableId);
+    var rows = Array.from(table.rows).slice(1); // Exclude header row
+    var switching = true;
+
+    while (switching) {
+        switching = false;
+
+        for (var i = 0; i < rows.length - 1; i++) {
+            var shouldSwitch = false;
+            var x = rows[i].getElementsByTagName("td")[columnIndex].innerText.toLowerCase();
+            var y = rows[i + 1].getElementsByTagName("td")[columnIndex].innerText.toLowerCase();
+
+            if (x > y) {
+                shouldSwitch = true;
+                break;
+            }
+        }
+
+        if (shouldSwitch) {
+            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+            switching = true;
+        }
+    }
+}
+
+
         function showEventSection() {
             document.getElementById("eventSection").style.display = "block";
             document.getElementById("feedbackSection").style.display = "none";
@@ -287,6 +345,8 @@ $feedbackEntries = $feedbackController->readAllFeedback();
             var eventDate = "2024-04-27";
             var eventPlace = "Sample Event Place";
             var eventDescription = "Sample Event Description";
+            var ticketPrice = "0.0";
+            var ticketNumber = "0"; 
 
             // Set values in the update event form
             document.getElementById('updateEventId').value = eventId;
@@ -295,6 +355,9 @@ $feedbackEntries = $feedbackController->readAllFeedback();
             document.getElementById('updateEventDate').value = eventDate;
             document.getElementById('updateEventPlace').value = eventPlace;
             document.getElementById('updateEventDescription').value = eventDescription;
+            document.getElementById('updateTicketPrice').value = ticketPrice; 
+            document.getElementById('updateTicketNumber').value = ticketNumber;
+            
 
             // Show the modal
             var updateEventModal = new bootstrap.Modal(document.getElementById('updateEventModal'));
