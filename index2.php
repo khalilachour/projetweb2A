@@ -1,8 +1,8 @@
 <?php
 include('config.php');
 
-require_once('Controller/EventC.php');
-require_once('Controller/FeedbackC.php');
+require_once('controller/EventC.php');
+require_once('controller/FeedbackC.php');
 
 
 try {
