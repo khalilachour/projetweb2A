@@ -1,26 +1,26 @@
 <?php
+class config
+{
+    private static $pdo = NULL;
 
-$db_host = "localhost";
-$db_name = "event_feedback";
-$db_user = "root"; 
-$db_password = ""; 
-
-try {
-    
-    $conn = new PDO("mysql:host=$db_host;dbname=$db_name", $db_user, $db_password);
-    
-  
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
-    
-    define('BASE_URL', 'http://example.com');
-
-    define('DB_TABLE_EVENTS', 'events');
-    define('DB_TABLE_FEEDBACK', 'feedback');
-    
-
-} catch(PDOException $e) {
-    
-    die("Connection failed: " . $e->getMessage());
+    public static function getConnexion()
+    {
+        if (!isset(self::$pdo)) {
+            try {
+                self::$pdo = new PDO(
+                    //'mysql:host=localhost;port=3307;dbname=offress',
+                    'mysql:host=localhost;dbname=projet_devweb',
+                    'root',
+                    '',
+                    [
+                        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+                    ]
+                );
+            } catch (Exception $e) {
+                die('Erreur: ' . $e->getMessage());
+            }
+        }
+        return self::$pdo;
+    }
 }
-
