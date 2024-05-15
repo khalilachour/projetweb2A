@@ -6,11 +6,11 @@ require_once('Controller/FeedbackC.php');
 
 
 try {
-    $pdo = new PDO("mysql:host=$db_host;dbname=$db_name", $db_user, $db_password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo = config::getConnexion();
 } catch (PDOException $e) {
     die("Error: Could not connect. " . $e->getMessage());
 }
+
 
 $eventController = new EventC($pdo);
 $feedbackController = new FeedbackC($pdo);
