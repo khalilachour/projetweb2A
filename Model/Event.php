@@ -40,22 +40,8 @@ class Event {
         }
     }
 
-    public function getEvent($eventId) {
-        // Validate event ID
-        $eventId = $this->validateInput($eventId);
-
-        // Retrieve event from the database
-        $sql = "SELECT * FROM events WHERE event_id = :event_id";
-        
-        try {
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->execute([':event_id' => $eventId]);
-            return $stmt->fetch(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            echo "Error: " . $e->getMessage();
-        }
-    }
-
+     
+    
     public function updateEvent($eventId, $eventData) {
         // Validate event data
         $eventData = array_map(array($this, 'validateInput'), $eventData);
@@ -162,4 +148,58 @@ class Event {
         $validTypes = ['training', 'entertainment', 'commercial'];
         return in_array($eventType, $validTypes);
     }
+
+    public function updateTicketAvailability($eventId, $quantity) {
+        // Update number of available tickets for the event
+        $sql = "UPDATE events SET ticket_number = :ticket_number WHERE event_id = :event_id";
+    
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([':ticket_number' => $quantity, ':event_id' => $eventId]);
+            echo "Ticket availability updated successfully!";
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+    }
+    
+    
+    public function createTicketPurchase($eventId, $candidateName) {
+        // Fetch event information from the database
+        $event = $this->eventModel->getEvent($eventId);
+    
+        // Check if the event exists
+        if (!$event) {
+            echo "Error: Event not found";
+            return;
+        }
+    
+        // Extract event details
+        $eventName = $event['event_name'];
+        $eventPlace = $event['event_place'];
+        $eventDate = $event['event_date'];
+        $eventDescription = $event['event_description'];
+    
+        // Construct receipt
+        $receipt = "Candidate Name: $candidateName\n";
+        $receipt .= "Event Name: $eventName\n";
+        $receipt .= "Event Place: $eventPlace\n";
+        $receipt .= "Event Date: $eventDate\n";
+        $receipt .= "Event Description: $eventDescription";
+    
+        // Insert new ticket purchase record into ticket_purchases table
+        $sql = "INSERT INTO ticket_purchases (candidate_name, event_id, receipt) VALUES (:candidate_name, :event_id, :receipt)";
+    
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([':event_id' => $eventId, ':candidate_name' => $candidateName, ':receipt' => $receipt]);
+            echo "Ticket purchased successfully!\n";
+            echo "Receipt:\n";
+            echo $receipt; // Output the receipt
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+    }
+    
+
+
 }
